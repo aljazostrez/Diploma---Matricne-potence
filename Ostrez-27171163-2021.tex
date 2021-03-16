@@ -1,0 +1,974 @@
+\documentclass[mat1]{fmfdelo}
+
+\avtor{Aljaž Ostrež}
+
+\naslov{Matrične potence}
+\title{Powers of Matrices}
+
+% mentorica, somentor
+\mentorica{izr.~prof.~dr.~Marjeta Kramar Fijavž}
+\somentor{doc.~dr.~Pavle Boškoski}
+
+\letnica{2021} % leto diplome
+
+%  V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga organizacije dela --
+%  v katerem poglavju/razdelku je kaj, pač pa le opis vsebine.
+\povzetek{}
+
+%  Prevod slovenskega povzetka v angleščino.
+\abstract{}
+
+% navedite vsaj eno klasifikacijsko oznako --
+% dostopne so na www.ams.org/mathscinet/msc/msc2020.html
+\klasifikacija{}
+\kljucnebesede{} % navedite nekaj ključnih pojmov, ki nastopajo v delu
+\keywords{} % angleški prevod ključnih besed
+
+\zapisiMetaPodatke  % poskrbi za metapodatke in veljaven PDF/A-1b standard
+
+% aktivirajte pakete, ki jih potrebujete
+% \usepackage{tikz}
+\usepackage{kbordermatrix}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{commath}
+
+% lokacija slik
+\graphicspath{{./slike/}}
+
+% za številske množice uporabite naslednje simbole
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Q}{\mathbb Q}
+
+% matematične operatorje deklarirajte kot take, da jih bo Latex pravilno stavil
+% \DeclareMathOperator{\conv}{conv}
+
+% vstavite svoje definicije ...
+%  \newcommand{}{}
+\DeclareMathOperator{\Ima}{Im}
+
+
+\begin{document}
+
+\section{Uvod}
+Z naslednjimi zgledi bomo motivirali uporabo matričnih potenc.
+\subsection{Fibonaccijevo zaporedje}
+
+Poglejmo si uporabo matričnih potenc na primeru Fibonaccijevega zaporedja.
+\begin{zgled} [Fibonaccijevo zaporedje]
+    Poznamo rekurzivno formulo za Fibonaccijevo zaporedje:
+    \begin{align*}
+        &f_0 = 0, f_1 = 1 \\
+        &f_{n+1} = f_n + f_{n-1}, n \geq 1.
+    \end{align*}
+    Z uvedbo zaporedja $g_n = f_{n-1}$ dobimo sistem:
+    \begin{align*}
+        f_{n+1} &= f_n + g_n \\
+        g_{n+1} &= f_n
+    \end{align*}
+    ob začetnih pogojih $f_1 = 1$ in $g_1 = 0$. Ta sistem lahko zapišemo v matrični obliki:
+    \begin{equation*}
+        \begin{bmatrix}
+            f_{n+1} \\
+            g_{n+1}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{bmatrix}
+        \begin{bmatrix}
+            f_n \\
+            g_n
+        \end{bmatrix}
+    \end{equation*}
+    za vsak $n \in \mathbb{N}$. Rekurzivno uporabljamo zgornji predpis, da dobimo
+    \begin{equation*}
+        \begin{bmatrix}
+            f_{n+1} \\
+            g_{n+1}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{bmatrix}
+        \begin{bmatrix}
+            f_n \\
+            g_n
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{bmatrix}
+        ^2
+        \begin{bmatrix}
+            f_{n-1} \\
+            g_{n-1}
+        \end{bmatrix}
+        = \cdots =
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{bmatrix}
+        ^n
+        \begin{bmatrix}
+            f_1 \\
+            g_1
+        \end{bmatrix}
+    \end{equation*}
+    oziroma
+    \begin{equation*}
+        \begin{bmatrix}
+            f_{n+1} \\
+            g_{n+1}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            f_{n+1} \\
+            f_n
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{bmatrix}
+        ^n
+        \begin{bmatrix}
+            1 \\
+            0
+        \end{bmatrix}.
+    \end{equation*}
+    Z uporabo matričnih potenc torej lahko dobimo ekplicitno formulo za splošni člen v Fibonaccijevemu zaporedju
+    \begin{equation*}
+        f_n = a_{21},
+    \end{equation*}
+    kjer je $a_{21}$ prvi element v drugi vrstici matrike:
+    \begin{equation*}
+        A^n =
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{bmatrix}
+        ^n.
+    \end{equation*}
+\end{zgled}
+
+Tekom študija smo že spoznali en način za računanje matričnih potenc -- potence matrik lahko računamo s prevedbo na Jordanovo formo.
+
+Naj bo $A \in \mathbb{R}^{m\times m}$ matrika. Potem velja:
+\begin{equation*}
+    A^n = PJ^nP^{-1},
+\end{equation*}
+kjer je $J$ Jordanova forma matrike $A$, $P$ pa pripadajoča prehodna matrika. Vemo, da:
+\begin{equation*}
+    J^n = 
+    \begin{bmatrix}
+        J_1^n & & \\
+         & \ddots & \\
+         & & J_k^n
+    \end{bmatrix},
+\end{equation*}
+kjer so $J_i, i=1,\ldots,k$ Jordanovi bloki. Za Jordanove bloke velja:
+\begin{equation*}
+    J_i^n = 
+    \begin{bmatrix}
+        \lambda_i^n & {n \choose 1}\lambda_i^{n-1} & \cdots & {n \choose m_i} \lambda_i^{n-m_i} \\
+         & \lambda_i^n & \cdots  & {n \choose m_i-1} \lambda_i^{n-(m_i-1)} \\
+         & & \ddots  & \vdots \\
+         & & & \lambda_i^n
+    \end{bmatrix},
+\end{equation*}
+pri čemer je $\lambda_i$ lastna vrednost matrike $A$, $m_i \times m_i$ pa velikost Jordanovega bloka.
+V posebnem primeru, ko je $J$ diagonalna matrika, velja:
+\begin{equation*}
+    J^n = 
+    \begin{bmatrix}
+        \lambda_1^n & & \\
+         & \ddots & \\
+         & & \lambda_m^n
+    \end{bmatrix},
+\end{equation*}
+
+\begin{zgled} [Fibonaccijevo zaporedje -- nadaljevanje]
+    Z izračunom lastnih vrednosti in lastnih vektorjev bi za matriko:
+    \begin{equation*}
+        A = 
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 0
+        \end{bmatrix}
+    \end{equation*}
+    dobili Jordanovo formo (oziroma v tem primeru kar diagonalizacijo) matrike $A$ in prehodno matriko:
+    \begin{equation*}
+        J = 
+        \begin{bmatrix}
+                \frac{1+\sqrt{5}}{2} & 0 \\
+            0 &  \frac{1-\sqrt{5}}{2}
+        \end{bmatrix}
+        ,\quad \quad
+        P = 
+        \begin{bmatrix}
+            \frac{1-\sqrt{5}}{2} &  \frac{1+\sqrt{5}}{2} \vspace{2pt} \\
+            1 & 1
+        \end{bmatrix}.
+    \end{equation*}
+    Naš sistem enačb lahko zapišemo kot:
+    \begin{equation*}
+        \begin{bmatrix}
+            f_{n+1} \\
+            f_n
+        \end{bmatrix}
+        =
+        A^n
+        \begin{bmatrix}
+            1 \\
+            0
+        \end{bmatrix}
+        = PJ^n P^{-1}
+        \begin{bmatrix}
+            1 \\
+            0
+        \end{bmatrix}.
+    \end{equation*}
+    Izračunamo, da je:
+    \begin{equation*}
+        f_n = \frac{\sqrt{5}}{5}\Big[ \Big(\frac{1+\sqrt{5}}{2}\Big)^n - \Big(\frac{1-\sqrt{5}}{2}\Big)^n \Big], \quad n \in \mathbb{N}_0.
+    \end{equation*}
+    S pomočjo matričnih potenc smo dobili eksplicitno formulo zaporedja iz rekurzivnega predpisa.
+\end{zgled}
+
+Zakaj potrebujemo nove metode za računanje matričnih potenc, če jih že znamo računati s pomočjo Jordanove forme? Izkaže se, da je izračun Jordanove forme numerično zahteven, poleg tega pa nam Jordanova forma omogoča potenciranje matrik le v končnih dimenzijah. Velikokrat nam tudi ni potrebno izračunati celotne matrike $A^n$, ampak želimo le poznati nekatere njene lastnosti. Namesto Jordanove forme bomo uporabili spektralni razcep, ki ni odvisen od izbire baze matrike $A$.
+
+Želeli bomo opisati asimptotsko obnašanje matričnih zaporedij s splošnim členom $A_n = A^n$, kjer je $A \in \R^{m \times m}$. To obnašanje se lahko razbere že iz spektra matrike, včasih pa celo le iz spektralnega radija.
+
+\subsection{Markovske verige}
+
+Uporabo matričnih potenc bomo prikazali na primeru markovskih verig. Navedimo definicijo markovske verige.
+\begin{definicija}
+    Naj bo $S$ števna množica, ki jo poimenujemo \emph{množica stanj}. Njene elemente $s \in S$ imenujemo \emph{stanja}. \emph{Slučajni proces} (z diskretnim časom) je vsako zaporedje diskretnih slučajnih spremenljivk $X_0, X_1, \ldots, X_n, \ldots$, katerih zaloga vrednosti leži v $S$. To zaporedje imenujemo \emph{markovska veriga}, če ima markovsko lastnost:
+    \begin{equation}
+        P(X_n = s_n | X_0 = s_0, X_1 = s_1, \ldots, X_{n-1} = s_{n-1}) = P(X_n = s_n | X_{n-1} = s_{n-1}),
+    \end{equation}
+    tj. verjetnost stanja na $n$-tem koraku je odvisna le od stanja na $(n-1)$-tem koraku. Vpeljemo še pojma \emph{prehodne verjetnosti} $p_{ij} = P(X_n = s_j | X_{n-1} = s_i)$ in \emph{prehodne matrike} $P = (p_{ij})$.
+\end{definicija}
+Poglejmo si zgled markovske verige, ki bo hkrati tudi motiviral računanje limite zaporedja $A_n = A^n$, če ta obstaja. 
+\begin{zgled}
+    Izberimo si vozlišče na poljubnem neusmerjenem grafu. Izberemo si naključnega soseda izbranega vozlišča in se premaknemo v njega. Postopek ponavljamo. Kakšen je delež obiskov določenega vozlišča v grafu po dolgem času? Ker soseda izbiramo naključno, začetnemu grafu priredimo utežen usmerjen graf, kjer so uteži verjetnosti, da se premaknemo v povezanega soseda. Tu privzamemo, da so izbire sosedov enako verjetne, za vozlišče stopnje $k$ so vse verjetnosti enake $\frac{1}{k}$.
+    \begin{figure}[!htb]
+        \centering
+        \begin{minipage}{0.5\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{grafUndir.png}
+            \caption{Začetni neusmerjen graf.}
+        \end{minipage}
+        \hspace{-30pt}
+        \begin{minipage}{0.5\textwidth}
+            % \vspace{30pt}
+            \centering
+            \includegraphics[width=\textwidth]{grafDir.png}
+            \caption{Prirejen utežen usmerjen graf.}
+        \end{minipage}
+    \end{figure}
+
+    \noindent Naša množica stanj je $S = \{A, B, C, D, E\}$, prehodna matrika pa bo kar matrika sosednosti prirejenega uteženega usmerjenega grafa
+    \begin{equation*}
+        P =
+        \kbordermatrix{
+                & A & B & C & D & E \\
+            A & 0 & 1/3 & 1/3 & 1/3 & 0 \\
+            B & 1/2 & 0 & 1/2 & 0 & 0 \\
+            C & 1/4 & 1/4 & 0 & 1/4 & 1/4 \\
+            D & 1/2 & 0 & 1/2 & 0 & 0 \\
+            E & 0 & 0 & 1 & 0 & 0
+        }.
+    \end{equation*}
+    Ker je izbira naslednjega vozlišče v zaporedju odvisna le od trenutnega vozlišča, ima naše zaporedje markovsko lastnost, torej bo naša pot v grafu markovska veriga. Kaj nam pa pove prehodna matrika?
+    \begin{itemize}
+        \item Matrika $P$ nam pove, kakšna je verjetnost, da bomo prišli v določeno vozlišče v naslednjem koraku, če smo trenutno v vozlišču, ki ga predstavlja vrstica.
+        \item $P^2$ nam pove, kakšna je verjetnost, da bomo prišli v določeno vozlišče čez 2 koraka.
+        \item ...
+    \end{itemize}
+    Za naš primer se izkaže celo, da obstaja limita:
+    \begin{equation*}
+        \lim_{n \rightarrow \infty} P^n =
+        \begin{bmatrix}
+            0,25 & 0,17 & 0,33 & 0,17 & 0,08 \\
+            0,25 & 0,17 & 0,33 & 0,17 & 0,08 \\
+            0,25 & 0,17 & 0,33 & 0,17 & 0,08 \\
+            0,25 & 0,17 & 0,33 & 0,17 & 0,08 \\
+            0,25 & 0,17 & 0,33 & 0,17 & 0,08 
+        \end{bmatrix}.
+    \end{equation*}
+    Ta limita nam pove delež obiskov za vsako vozlišče (če bi zelo dolgo potovali). Limita je tudi neodvisna od izbire začetnega vozlišča, če je le graf povezan.
+\end{zgled}
+
+\subsection{Ponovitev iz linearne algebre}\label{linearnaAlgebra}
+Naj bo $A \in \C^{n \times n}$ matrika dimenzije $n \times n$. Definiramo \emph{množico polinomov matrike} $A$ s predpisom
+\begin{equation}
+    \mathcal{P}_A := \Big\{ \sum_{i=0}^m \alpha_i A^i\ |\  \alpha_i \in \C, m \in \N_0 \Big\} \subset \C^{n \times n}.
+\end{equation}
+Če je $p(x) = \sum_{i=0}^m \alpha_i x^i$ polinom, bomo pisali
+\begin{equation}
+    p(A) := \sum_{i=0}^m \alpha_i A^i.
+\end{equation}
+Definiramo preslikavo
+\begin{align}
+\begin{split}
+    \Phi_A : \C [x] &\longrightarrow \mathcal{P_A} \\
+    p &\longmapsto p(A),
+\end{split}
+\end{align}
+kjer je $\C [x]$ množica polinomov s koeficienti iz $\C$. Jedro preslikave $\Phi_A$ je
+\begin{equation}
+    \ker (\Phi_A) = \Big\{ p \in \C [x] \ | \  p(A) = 0 \Big\},
+\end{equation}
+torej $\ker(\Phi_A)$ je množica vseh polinomov, za katere je $p(A) = 0$.
+
+\begin{definicija}
+    \emph{Minimalni polinom} $m_A \in \C[x]$ je neničeln monični polinom najmanjše stopnje iz $\ker(\Phi_A)$, tj.\ monični polinom $p$ najnižje stopnje, za katerega je $p(A) = 0$.
+\end{definicija}
+\begin{opomba}
+    \emph{Monični polinom} je polinom z vodilnim koeficientom enakim 1.
+\end{opomba}
+Spomnimo se, da je minimalni polinom $m_A$ enolično določen z matriko $A$. Potrebovali bomo še pojem \emph{lastne vrednosti} in \emph{lastnega vektorja} matrike $A$, osvežimo pa še definicijo \emph{karakterističnega polinoma} matrike $A$. Poleg tega navedimo še definicijo \emph{lastnega podprostora}.
+\begin{definicija}
+    Naj bo $A \in \C^{n \times n}$.
+    \begin{itemize}
+        \item Število $\lambda \in \C$ imenujemo \emph{lastna vrednost} matrike $A$, če obstaja vektor $x \in \C^n$, $x \neq 0$, tako da velja
+        \begin{equation}
+            Ax = \lambda x.
+        \end{equation}
+        Vektorji $x$, za katere velja zgornja enačba, so pripadajoči \emph{lastni vektorji}.
+        \item Polinom
+        \begin{equation}
+            \Delta_A(\lambda) = \det (A - \lambda I) \in \mathcal{P}_A
+        \end{equation}
+        v spremenljivki $\lambda$ imenujemo \emph{karakteristični polinom} matrike $A$.
+        \item \emph{Lastni podprostor} matrike $A$, ki pripada lastni vrednosti $\lambda$, je definiran kot $\ker (A - \lambda I)$.
+    \end{itemize}
+\end{definicija}
+\emph{Algebraična večkratnost} lastne vrednosti $\lambda$ je večkratnost $\lambda$ kot ničle polinoma $\Delta_A(\lambda)$. \emph{Geometrična večkratnost} lastne vrednosti $\lambda$ pa je dimenzija pripadajočega lastnega podprostora $\ker (A - \lambda I)$.
+Brez dokaza se spomnimo naslednje trditve, s pomočjo katere med drugim tudi na roke iščemo lastne vrednosti matrike $A$.
+\begin{trditev}
+    Naj bo $A \in \C^{n \times n}$, $m_A$ pripadajoči minimalni polinom, $\Delta_A$ pripadajoči karakteristični polinom in $\lambda \in \C$. Naslednje trditve so ekvivalentne:
+    \begin{enumerate}
+        \item $\lambda$ je lastna vrednost matrike $A$,
+        \item $\lambda$ je ničla polinoma $m_A$,
+        \item $\lambda$ je ničla polinoma $\Delta_A$.
+    \end{enumerate}
+\end{trditev}
+Iz dejstva, da je lastna vrednost $\lambda$ ničla polinoma $\Delta_A$, torej $\det (A - \lambda I) = 0$, sledi, da matrika  $A - \lambda I$ ni obrnljiva.
+\begin{posledica}\label{posledicaObrnljivostLV}
+    Število $\lambda \in \C$ je lastna vrednost matrike $A$ natanko tedaj, ko matrika $A - \lambda I$ ni obrnljiva.
+\end{posledica}
+Matrika $A - \lambda I$ je \emph{nilpotentna} reda $\nu$, kjer je $\nu$ geometrična večkratnost lastne vrednosti $\lambda$. To pomeni, da velja $(A - \lambda I)^k = 0$ za $k \geq \nu$.
+
+Iz zgornje trditve sledi, da lahko minimalni polinom $m_A$ matrike $A$ zapišemo kot
+\begin{equation}
+    m_A(z) = (z-\lambda_1)^{\nu_1}(z-\lambda_2)^{\nu_2}\cdots (z-\lambda_m)^{\nu_m},
+\end{equation}
+kjer $\lambda_1, \ldots, \lambda_m$ lastne vrednosti matrike $A$, $\nu_1, \ldots, \nu_m$ pa pripadajoče geometrične večkratnosti.
+
+V nadaljevanju bomo omenjali tudi \emph{matrične} in \emph{operatorske norme}, zato se spomnimo lastnosti norme.
+\begin{definicija}
+    \emph{Matrična norma} na $\C^{n \times n}$ je takšna preslikava $\norm{\cdot}: \C^{n \times n} \rightarrow \R$, da za vsaki matriki $A, B \in \C^{n \times n}$ in vsak skalar $\alpha \in \C$ velja:
+    \begin{enumerate}
+        \item $\norm{A} \geq 0$ in $\norm{A} = 0$ natanko tedaj, ko je $A = 0$ (pozitivnost),
+        \item $\norm{\alpha A} = |\alpha|\norm{A}$ (homogenost),
+        \item $\norm{A + B} \leq \norm{A} + \norm{B}$ (trikotniška neenakost), 
+        \item $\norm{A B} \leq \norm{A} \norm{B}$ (submultiplikativnost).
+    \end{enumerate}
+    Matrične norme, ki so porojene iz vektorskih norm s predpisom
+    \begin{equation}
+        \norm{A} = \max_{x \neq 0} \frac{\norm{A x}}{\norm{x}}\quad \text{za}\ x\in \C^n,
+    \end{equation}
+    imenujemo \emph{operatorske norme}.
+\end{definicija}
+Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih lastnosti.
+\begin{trditev}\label{trditevOperatorska}
+    Naj bo $A \in \C^{n \times n}$, $x \in \C^{n \times n}$ in $\norm{\cdot}$ operatorska norma na $\C^{n \times n}$. Potem velja
+    \begin{equation}
+        \norm{A x} \leq \norm{A} \cdot \norm{x}.
+    \end{equation}
+\end{trditev}
+\begin{dokaz}
+    Za $x = 0$ trditev očitno velja. Za $x \neq 0$ pa velja
+    \begin{equation}
+        \frac{\norm{A x}}{\norm{x}} \leq \max_{x \neq 0} \frac{\norm{A x}}{\norm{x}} = \norm{A},
+    \end{equation}
+    torej je $\norm{A x} \leq \norm{A} \cdot \norm{x}$.
+\end{dokaz}
+\begin{posledica}\label{posledicaOperatorskaNorma}
+    Naj bo $A \in \C^{n \times n}$ in $\norm{\cdot}$ neka operatorska norma na $\C^{n \times n}$. Potem velja neenakost
+    \begin{equation}
+        \norm{A} \geq \max\{|\lambda_i|, \lambda_i\  \text{je lastna vrednost matrike}\  A\}.
+    \end{equation}
+\end{posledica}
+\begin{dokaz}
+    Po definiciji lastne vrednosti velja $A x = \lambda x$ za neki lastni vektor $x \in \C^{n \times n}$, $x \neq 0 $. Zato velja tudi
+    \begin{equation}
+        \norm{A x} = \norm{\lambda x} = |\lambda|\cdot \norm{x}.
+    \end{equation}    
+    Ker je $\norm{\cdot}$ operatorska norma, po trditvi \ref{trditevOperatorska} velja
+    \begin{equation}
+        \norm{A x} \leq \norm{A} \cdot \norm{x}.
+    \end{equation}
+    Sledi, da je
+    \begin{equation}
+        |\lambda|\cdot \norm{x} \leq \norm{A} \cdot \norm{x},
+    \end{equation}
+    torej je $|\lambda| \leq \norm{A}$. To velja za vsako lastno vrednost $\lambda$. Posledica sledi.
+\end{dokaz}
+
+
+\begin{definicija}
+    Matrika $P \in \C^{n \times n}$ je \emph{projekcija}, če velja $P^2 = P$.
+\end{definicija}
+\begin{zgled}
+    Poglejmo si primer pravokotne projekcije v prostoru $\R^3$. Za pravokotno projekcijo velja, da je $\ker P \bot \Ima P$. Projecirajmo vektor $v = (1,1,0)$ na ravnino $\Sigma$, ki je podana z enačbo $x + y + z = 0$. Ta ravnina ima normalni vektor $n = (1,1,1)$, ki ni normaliziran. Vemo, da s formulo
+    \begin{equation}\label{eqProjekcijaVektor}
+        \operatorname{proj}_{n}(v) = \frac{n \cdot v}{n\cdot n}\cdot n
+    \end{equation}
+    projeciramo vektor $v$ na vektor $n$. S tem lahko izračunamo tudi projekcijo vektorja $v$ na ravnino $\Sigma$.
+    \begin{figure}[H]
+        \vspace{-10pt}
+        \centering
+        \includegraphics[width=0.5\textwidth]{projekcija.png}
+        \vspace{-25pt}
+        \caption{Projekcija vektorja $v$ na vektor ravnino $\Sigma$.}
+    \end{figure}
+    Če vstavimo $v$ in $n$ v formulo \eqref{eqProjekcijaVektor}, dobimo
+    \begin{equation}
+        \operatorname{proj}_{n}(v) = \frac{2}{3}\cdot (1,1,1).
+    \end{equation}
+    Ker velja $x = v - \operatorname{proj}_{n}(v)$, je torej
+    \begin{equation}
+        x = \operatorname{proj}_\Sigma (v) = \frac{1}{3}\cdot (1,1,-2).
+    \end{equation}
+    Bolj zanimiv, kot le izračun $\operatorname{proj}_\Sigma (v)$, pa je izračun projekcijske matrike, ki vektor $v$ projecira na vektor $n$. Če pišemo skalarni produkt kot množenje matrik, tj. $a\cdot b = a^T \cdot b$, iz komutativnosti skalarjev in asociativnosti matričnega množenja sledi
+    \begin{equation}
+        \operatorname{proj}_{n}(v) = \frac{n^T  v}{n^T n}\cdot n = \frac{(n^T  v)n}{n^T n} = \frac{n(n^T  v)}{n^T n} = \frac{n  n^T}{n^T n}\cdot v.
+    \end{equation}
+    S $P$ označimo izraz $\frac{n  n^T}{n^T n}$. Izračunamo, da je
+    \begin{equation}
+        P = \frac{1}{3}\cdot
+        \begin{bmatrix}
+            1 & 1 & 1 \\
+            1 & 1 & 1 \\
+            1 & 1 & 1
+        \end{bmatrix},
+    \end{equation}
+    velja pa tudi $P^2 = P$, kar pomeni, da je $P$ \emph{projekcija}. Enačba $\operatorname{proj}_n (v) = P v$ pa sledi direktno iz izpeljave.
+\end{zgled}
+\begin{definicija}
+    Naj bosta $X$ in $Y$ vektorska prostora nad $\C$, da velja $X \cap Y = \emptyset$. Tedaj vsoti
+    \begin{equation}
+        X + Y = \{x+y \ | x\in X, y\in Y\}
+    \end{equation}
+    pravimo \emph{direktna vsota} in jo označimo z $X \oplus Y$.
+\end{definicija}
+\begin{trditev}
+    Martika $P \in \C^{n \times n}$ je projekcija natanko tedaj, ko je
+    \begin{equation}
+        \C^n = \ker P \oplus \Ima P\quad  \text{in}\quad P|_{\Ima P} = I.
+    \end{equation}
+\end{trditev}
+\begin{dokaz}
+    $(\Leftarrow)$$\quad P|_{\Ima P} = I$ implicira $P(P x) = P x$, tj. $P^2 = P$, kar je ravno definicija projekcije.
+
+    $(\Rightarrow)$Naj bo $x \in \C^n$ in $y \Ima P$, tako da velja $y = P x$. Definirajmo $z := x-y$. Potem je $x = z + y$ in
+    \begin{equation}
+        P z = P x - P y = P x - P^2 x = P x - P x = 0,
+    \end{equation}
+    torej je $z \in \ker P$. Lahko sklepamo tudi, da iz $y \in \Ima P$ sledi $P y = y$.
+
+    Dokažimo še, da je da je razcep na direktno vsoto enoličen. Naj bosta $y' \in \Ima P$ in $z' \in \ker P$. Naj bo $x = y' + z'$. Iz računa
+    \begin{equation}
+        y = P x = P y' + P z' = y'
+    \end{equation}
+    sledi, da je $y = y'$ in $z = z'$.
+\end{dokaz}
+
+\section{Spektralni razcep}
+\subsection{Matrični polinomi}
+V podpoglavju \ref{linearnaAlgebra} smo že definirali množico matričnih polinomov $\mathcal{P}_A$ in minimalni polinom $m_A$ matrike $A \in \C^{n \times n}$, pa tudi preslikavo $\Phi_A$ iz množice polinomov $\C [x]$ v $\mathcal{P}_A$.
+\begin{trditev}\label{trditevMinimalniPolinom}
+    Naj bo $m_A$ minimalni polinom. Potem je
+    \begin{equation}
+        p \in \ker (\Phi_A) \Leftrightarrow p = m_A \cdot q\ \  \text{za}\ \ q \in \C [x],
+    \end{equation}
+    tj.\ $p(A) = 0$ natanko tedaj, ko je $p(A)$ večkratnik minimalnega polinoma $m_A$.
+\end{trditev}
+\begin{dokaz}
+    Najprej dokažimo implikacijo ($\Leftarrow$). Naj bo $m_A$ minimalni polinom. Če je $p = m_A\cdot q$ za nek $q \in \C [x]$, potem je
+    \begin{equation}
+        p(A) = m_A(A) \cdot q(A) = 0 \cdot q(A) = 0,
+    \end{equation}
+    torej je $p \in \ker(\Phi_A)$.
+    
+    Dokažimo še ($\Rightarrow$). Naj bo $p \in \C [x]$, za katerega velja $p(A) = 0$. Če delimo $p$ z $m_A$, dobimo:
+    \begin{equation*}
+        p = m_A \cdot q + r
+    \end{equation*}
+    za $q, r \in \C [x]$, da velja $\text{st}(r) < \text{st}(q)$. Velja
+    \begin{equation*}
+        0 = p(A) = \underbrace{m_A(A)}_{=0} \cdot q(A) + r(A) = r(A),
+    \end{equation*}
+    torej je $r \in \ker(\Phi_A)$. Ker ima $m_A$ najmanjšo stopnjo v $\ker(\Phi_A)$, sklepamo, da je $r \equiv 0$.
+\end{dokaz}
+
+Za polinome $p, q, r \in \C [x]$ bomo uporabljali zapis
+\begin{equation}
+    p \equiv q \mod r\  \Longleftrightarrow\  p - q = s\cdot r\ \  \text{za nek}\  s\in \C [x].
+\end{equation}
+Poglejmo si posledico trditve \ref{trditevMinimalniPolinom}
+\begin{posledica} \label{posledicaProjekcija}
+    Naj bosta $p, q \in \C [x]$. Velja
+    \begin{equation}
+        p(A) = q(A)\  \Longleftrightarrow\ p \equiv q \mod m_A.
+    \end{equation}
+    V posebnem primeru velja, da je $p(A)$ projekcija natanko tedaj, ko je
+    \begin{equation}
+        p^2 \equiv p \mod m_A.
+    \end{equation}
+\end{posledica}
+Zgornja posledica nam pove, da polinoma $p$ in $q$ nista nujno enaka v $\C [x]$, da je $p(A) = q(A)$. Naslednja trditev pa nam pove, da lahko enakost po $\mod m_A$ preverimo le s pomočjo lastnih vrednosti matrike $A$ in njihovih večkratnosti.
+\begin{trditev} \label{trditevPosploseniMinimalni}
+    Naj bosta $p, q \in \C [x]$. Za vsak $i = 1, \ldots, m$ in $\nu = 0, \ldots, \nu_i-1$ velja
+    \begin{equation}
+        p \equiv q \mod m_A \ \Longleftrightarrow\  p^{(\nu)}(\lambda_i) = q^{(\nu)}(\lambda_i).
+    \end{equation}
+\end{trditev}
+\begin{dokaz}
+    Trditev sledi iz dejstva, da za nek $n\in \N$ in neničeln $q \in \C [x]$ ter fiksen $z_1 \in \C$ velja
+    \begin{equation*}
+        p(z) = (z-z_1)^n q(z) \ \Longleftrightarrow\  p^{(i)}(z_1)=0 \ \text{za}\  i=0, 1, \ldots, n-1,
+    \end{equation*}
+    kar smo že dokazali pri študiju algebre.
+\end{dokaz}
+
+\subsection{Gladke matrične funkcije}
+
+Naj bo $A \in \C^{n \times n}$ matrika z minimalnim polinomom $m_A$. Naj bodo $\lambda_1, \ldots, \lambda_m$ ničle $m_A$ z večkratnostimi $\nu_1, \ldots, \nu_m$. Definirajmo množico funkcij, ki so definirane in neskončnokrat odvedljive na okolici $\{\lambda_1, \ldots, \lambda_m\}$, s predpisom
+\begin{equation}
+    C_A^\infty := \{ f: D(f) \rightarrow \C\ |\ \exists U \subset D(f)\ \text{odprta}, \{\lambda_1, \ldots, \lambda_m\} \subset U, f|_U \in C^\infty \},
+\end{equation}
+kjer je $D(f) \subset \C$ definicijsko območje funkcije $f$.
+\begin{definicija} \label{definicijaGladkaFunkcija}
+    Naj bo $f \in \C_A^\infty$. Definiramo:
+    \begin{equation}
+        f(A) := \Phi_A(p_f) = p_f(A),
+    \end{equation}
+    kjer je $p_f$ polinomska interpolacija funkcije $f$, ki zadošča pogoju
+    \begin{equation}
+        f^{(\nu)}(\lambda_i) = p_f^{(\nu)}(\lambda_i)
+    \end{equation}
+    za vsak $i = 1, \ldots, m$ in $\nu = 0, \ldots, \nu_i-1$.
+\end{definicija}
+S to definicijo lahko matrične polinome razširimo na množico gladkih matričnih funkcij:
+\begin{align}
+    \begin{split}
+        \widetilde{\Phi} :\ &C_A^\infty \longrightarrow \mathcal{P_A} \\
+        &\widetilde{\Phi}_A(f) = \Phi_A(p_f) = p_f(A)
+    \end{split}
+\end{align}
+\begin{opomba}
+    Za $n+1$ različnih točk $(z_0, f(z_0)), (z_1, f(z_1)), \ldots, (z_n, f(z_n))$ je interpolacijski polinom stopnje največ $n$. Če pa zahtevamo, da se v teh točkah ujemajo tudi $i_k$-ti odvodi, pa je stopnja interpolacijskega polinoma navzgor omejena z $\sum_0^n (i_k + 1) - 1$.
+\end{opomba}
+Iz definicije \ref{definicijaGladkaFunkcija} in trditev \ref{trditevMinimalniPolinom}, \ref{trditevPosploseniMinimalni} sledi:
+\begin{trditev} \label{trditevPhiAlgebra}
+    Naj bodo oznake kot zgoraj. Velja:
+    \begin{enumerate}
+        \item Definicija $\widetilde{\Phi}_A(f)$ ni odvisna od izbire metode za polinomsko interpolacijo $p_f$.
+        \item Preslikava $\widetilde{\Phi}_A$ je razširitev funkcije $\Phi_A$.
+        \item $\widetilde{\Phi}$ je homomorfizem algeber, kar pomeni, da velja:
+        \begin{align*}
+            \widetilde{\Phi}_A(\lambda f + \mu g) &= \lambda \widetilde{\Phi}_A(f) + \mu \widetilde{\Phi}_A(g), \\
+            \widetilde{\Phi}_A(f \cdot g) &= \widetilde{\Phi}_A(f) \cdot \widetilde{\Phi}_A(g)
+        \end{align*}
+        za $\lambda, \nu \in \C$ in $f, g \in C_A^\infty$.
+    \end{enumerate}
+\end{trditev}
+
+\subsection{Spektralna teorija}
+Definirajmo \emph{karakteristično funkcijo} $\chi_U$ s predpisom
+\begin{equation}
+    \chi_U(\lambda) =
+    \begin{cases}
+        1, \lambda \in U, \\
+        0, \lambda \notin U
+    \end{cases}
+\end{equation}
+za odprte množice $U \subset \C$, za katere velja $\{\lambda_1, \ldots, \lambda_m\} \in U$. Funkcija $\chi_U$ je idempotent, kar pomeni, da velja $\chi_U \cdot \chi_U = \chi_U$. Po posledici \ref{posledicaProjekcija} sklepamo, da je $\chi_U(A) \in \mathcal{P}_A$ projekcija, ki komutira z A. Vzemimo posebno množico takšnih projekcij.
+\begin{definicija}
+Naj bodo $U_1, \ldots, U_m \subset \C$ odprte množice, ki zadostujejo pogojema:
+\begin{enumerate}
+    \item $\lambda_i \in U_i$ za $i = 1,\ldots,m$ in
+    \item $U_i \cap U_j = \emptyset$ za $i \neq j$.
+\end{enumerate}
+Z $\chi_i$ označimo karakteristično funkcijo množice $U_i$. Matrike
+\begin{equation} \label{definicijaProjekcije}
+    P_i := \chi_i(A) \in \mathcal{P}_A\ \text{za}\ i = 1,\ldots, m,
+\end{equation}
+so \emph{spektralne projekcije}, njihovo zalogo vrednosti pa bomo označili z 
+\begin{equation} \label{zalogeProjekcij}
+    X_i := \Ima P_i = P_i \C^n
+\end{equation}
+in jo imenujemo \emph{korenski podprostor} za lastno vrednost $\lambda_i$.
+\end{definicija}
+Omenimo, da je $P_i$ neodvisna od izbire $U_i$, poleg tega pa velja še $P_i \neq 0$ za vsak $i$.
+
+\begin{trditev}\label{trditevSpektralniRazcep}
+    Naj $A \in \C^{n \times n}$ matrika z minimalnim polinomom $m_A$, z ničlami $\lambda_1, \ldots, \lambda_m$ in z večkratnostmi $\nu_1, \ldots, \nu_m$. Če vzamemo $P_i$ in $X_i$ kot v \eqref{definicijaProjekcije} in \eqref{zalogeProjekcij}, potem je
+    \begin{equation}\label{eqSpektralniRazcep}
+        \C^n = X_1 \oplus \cdots \oplus X_m
+    \end{equation}
+    razcep direktnih vsot v $A$-invariantne podprostore z omejitvijo, da je $A - \lambda_i I$ nilpotentna reda $\nu_i$ na $X_i$ za $i = 1, \ldots, m$.
+\end{trditev}
+\begin{dokaz}
+    Ker so množice $U_i$ disjunktne, velja $\chi_i(\sum_{i \neq j} \chi_j) = 0$, torej tudi \\ $P_i(\sum_{i \neq j} P_j) = 0$. Iz tega sledi, da je
+    \begin{equation}
+        X_i \cap \big(\bigoplus_{i \neq j} X_j\big) = \{0\}.
+    \end{equation}
+    Ker je $\{\lambda_1, \ldots, \lambda_m\} \subset \bigcup_{i = 1}^m U_i =: U$, je
+    \begin{equation}
+        \sum_{i = 1}^m P_i = \widetilde{\Phi}_A \big(\sum_{i=1}^m \chi_i \big) = \widetilde{\Phi}_A (\chi_U) = I,
+    \end{equation}
+    torej $X_1 \oplus \cdots \oplus X_m = X$.
+\end{dokaz}
+\begin{definicija}
+    Razcepu $\C^n$ na invariante podprostore iz formule \eqref{eqSpektralniRazcep} rečemo \emph{spektralni razcep} prostora $C^n$. 
+\end{definicija}
+\begin{opomba}
+    Podprostor $X_i$ je \emph{invarianten za $A$} oziroma \emph{$A$-invarianten}, kadar velja $A x \in X_i$ za vsak $x \in X_i$, kar lahko zapišemo kot $A X_i \subseteq X_i$.
+\end{opomba}
+Spektralni razcep nam pove, da je matrika $A$ podobna bločno diagonalni matriki,
+\begin{equation}
+    A \sim
+    \begin{bmatrix}
+       A_1 & & \\
+       & \ddots & \\
+       & & A_m 
+    \end{bmatrix},
+\end{equation}
+kjer ima $A_i$ le eno samo lastno vrednost, in sicer $\lambda_i$. Ena takših bločno diagonalnih matrik je \emph{Jordanova forma} matrike $A$, kjer za bloke $A_i$ vzamemo Jordanove bloke $J_i$, ki pripadajo lastnim vrednostim $\lambda_i$. Iz tega dejstva bi lahko slutili, da bi za podprostore $X_i$ vzeli kar korenske podprostore $\ker (A - \lambda_i I)^{\nu_i}$ za lastne vrednosti $\lambda_i$.
+\begin{trditev}
+    Korenski podprostori matirke $A$ za lastne vrednosti $\lambda_i$ so
+    \begin{equation}
+        X_i = \ker (A - \lambda_i I)^{\nu_i},
+    \end{equation}
+    kjer je $\nu_i$ večkratnost lastne vrednosti $\lambda_i$.
+\end{trditev}
+\begin{dokaz}
+    Trditev \ref{trditevSpektralniRazcep} nam pove, da je $A - \lambda_i I$ nilpotentna reda $\nu_i$ na $X_i$, zato je
+    \begin{equation} \label{strogaVsebovanost}
+        X_i \subset \ker (A - \lambda_i I)^{\nu_i}.
+    \end{equation}
+    Recimo, da je vsebovanost stroga, torej obstaja neničeln vektor $x \in \ker (A - \lambda_i I)^{\nu_i} \backslash X_i$. Za neki $i \neq j$ obstaja $y := P_j x \in X_j \cap \ker (A - \lambda_i I)^{\nu_i}$. Vzamemo največji $p \in \N$, da velja
+    \begin{equation}
+        z := (A - \lambda_i I)^p y \neq 0.
+    \end{equation}
+    Potem je $z \in X_j$ in $A z = \lambda_i z$, iz česar sledi, da
+    \begin{equation}
+        (A - \lambda_j I)^{\nu_j} z = (\lambda_i - \lambda_j)^{\nu_j} z \neq 0,
+    \end{equation}
+    kar je protislovje s predpostavko, da je vsebovanost \eqref{strogaVsebovanost} stroga.
+\end{dokaz}
+
+\begin{trditev} \label{trditevFormula}
+    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \lambda_2, \ldots, \lambda_m$, ki imajo po vrsti večkratnosti $\nu_1, \nu_2, \ldots, \nu_m$. Definirajmo projekcije $P_i$ kot v \eqref{definicijaProjekcije}. Tedaj za vsako funkcijo $f \in C_A^\infty$ velja
+    \begin{equation}
+        f(A) = \sum_{i=1}^m \sum_{\nu = 0}^{\nu_i - 1} \frac{f^{(\nu)}(\lambda_i)}{\nu !}(A - \lambda_i)^\nu P_i.
+    \end{equation}
+\end{trditev}
+\begin{dokaz}
+    Funkcija
+    \begin{equation}
+        g(\lambda) = \sum_{i=1}^m \sum_{\nu = 0}^{\nu_i - 1} \frac{f^{(\nu)}(\lambda_i)}{\nu !}(\lambda - \lambda_i)^\nu \chi_i(\lambda), \quad \lambda \in \C,
+    \end{equation}
+    sovpada z $f$, vključno z vsemi pomembnimi odvodi, na vseh točkah $\lambda_1, \ldots, \lambda_m$.  Po trditvah \ref{trditevPosploseniMinimalni} in \ref{trditevPhiAlgebra} sledi, da je $f(A) = g(A)$.
+\end{dokaz}
+\begin{posledica}
+    Naj bodo predpostavke enake kot v trditvi \ref{trditevFormula}. Za $k \in \N$ velja
+    \begin{equation}\label{formulaMatricnePotence}
+        A^k = \sum_{i=1}^m \sum_{\nu = 0}^{\min \{\nu_i - 1, k\}} {k \choose \nu} \lambda_i^{k-\nu}(A - \lambda_i)^\nu P_i.
+    \end{equation}
+\end{posledica}
+\begin{dokaz}
+    V trditvi \ref{trditevFormula} za $k \in \N$ uporabimo funkcijo $f(\lambda) = \lambda^k$.
+\end{dokaz}
+
+\begin{definicija}
+    Naj bo $A \in \C^{n \times n}$. Množico
+    \begin{equation}
+        \sigma(A) := \{\lambda_1, \ldots, \lambda_m\}
+    \end{equation}
+    imenujemo \emph{spekter} matrike A. {Spektralni radij} definiramo kot
+    \begin{equation}
+        r(A) := \max \{|\lambda|, \lambda \in \sigma(A)\},
+    \end{equation}
+    tj. absolutno največja lastna vrednost matrike $A$.
+\end{definicija}
+
+Naslednja trditev nam pove, kako se preslika spekter matrike za neko preslikavo iz $C_A^\infty$.
+\begin{izrek} [Izrek o preslikavi spektra]\label{izrekOPreslikaviSpektra}
+    Naj bo $A \in \C^{n \times n}$ in $f \in C_A^\infty$. Potem velja
+    \begin{equation}
+        \sigma\big(f(A)\big) = f\big(\sigma(A)\big) := \{f(\lambda) | \lambda \in \sigma(A)\}.
+    \end{equation}
+\end{izrek}
+\begin{dokaz}
+    Naj bo $\lambda$ poljubna lastna vrednost matrike $A$ in $\mu \notin f(\sigma(A))$. Definiramo $u(\lambda) := \frac{1}{f(\lambda) - \mu} \in C_A^\infty$, torej je $u \cdot (f(\lambda) - \mu) = 1$ na okolici $\sigma(A)$. Če v to enačbo vstavimo matriko $A$, dobimo
+    \begin{equation}
+        u(A) \cdot (f(A) - \mu I) = (f(A) - \mu I) \cdot u(A) = I,
+    \end{equation}
+    torej matrika $f(A) - \mu I$ ni obrnljiva, zato po posledici \ref{posledicaObrnljivostLV} sledi $\mu \neq \sigma(f(A))$.
+    
+    Naj bo $x_i$ lastni vektor matrike $A$ za pripadajočo lastno vrednost $\lambda_i$ za $i = 1, \ldots, m$. Po trditvi \ref{posledicaObrnljivostLV} za vse $i \neq j$ velja $P_j x_i = 0$. Iz trditve \ref{trditevFormula} sledi
+    \begin{equation}
+        f(A) x_i = f(\lambda_i) x_i,
+    \end{equation}
+    torej je $f(\lambda_i) \in \sigma(f(A))$.
+\end{dokaz}
+
+\begin{lema}\label{lemaNorme}
+    Naj bo $\norm{\cdot}$ norma na $\C^{n \times n}$. Za $A \in \C^{n \times n}$ in $\mu > r(A)$ obstajata konstanti $N > 0$ in $M > 1$, da za vse $k \in \N$ velja
+    \begin{equation}
+        N \cdot r(A)^k \leq \norm{A^k} \leq M \cdot \mu^k.
+    \end{equation}
+    Če je $\norm{\cdot}$ operatorska norma, izberemo $N = 1$.
+\end{lema}
+Dokaz zgornje leme bo sledil v nadaljevanju. Ta lema pa implicira zanimivo formulo, s pomočjo katere lahko spektralni radij matrike izračunamo s pomočjo matričnih potenc.
+\begin{trditev} [Gelfandova formula] \label{gelfand}
+    Za matriko $A \in \C^{n \times n}$ velja:
+    \begin{enumerate}
+        \item $r(A) = \lim_{k \rightarrow \infty} \norm{A^k}^{1/k}$ za vsako matrično normo $\norm{\cdot}$ na $\C^{n \times n}$,
+        \item če je $\norm{\cdot}$ operatorska norma na $C^{n \times n}$, potem je $r(A) = \inf_{k > 0} \norm{A^k}^{1/k}$.
+    \end{enumerate}
+\end{trditev}
+
+\begin{dokaz}
+    Uporabimo posledico leme \ref{lemaNorme}
+    \begin{equation*}
+        N^{1/k} r(A) \leq \norm{A^k}^{1/k} \leq M^{1/k} \mu.
+    \end{equation*}
+    To smo dobili tako, da smo enačbo v lemi pomnožili z $\frac{1}{k}$. Če je $\norm{\cdot}$ operatorska norma, za dopustno izbiro $N = 1$ dobimo $r(A) = \inf_{k > 0} \norm{A^k}^{1/k}$.
+\end{dokaz}
+
+
+\section{Zaporedja matričnih potenc}
+\subsection{Koordinatna zaporedja}
+\begin{lema}\label{lemaNeodvisnost}
+    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \ldots, \lambda_m$ z večkratnostmi $\nu_1, \ldots, \nu_m$.
+    \begin{enumerate}
+        \item Za $i = 1, \ldots, m$ in $0\neq z \in X_i$ je množica
+                 \begin{equation}
+                     \{(A-\lambda_i I)^{\nu}\ |\ \nu = 0, \ldots, \nu_i - 1\} \backslash \{0\}
+                 \end{equation}
+                linearno neodvisna v $X_i$.
+        \item Množica
+                 \begin{equation}
+                     B_A = \{(A-\lambda_i I)^{\nu} P_i\ |\ i = 1, \ldots, m;\ \nu = 0, \ldots, \nu_i - 1\}
+                 \end{equation}
+                je linearno neodvisna v $\C^n$.
+    \end{enumerate}
+\end{lema}
+\begin{dokaz}
+    \begin{enumerate}
+        \item Naj bo $i = 1, \ldots, m$ in $0 \neq z \in \C^n$. Preveriti moramo, da so vektorji $(A - \lambda_i I)^\nu, \nu = 0, \ldots, \nu_i-1$ neodvisni. Ker je matrika $A - \lambda_i I$ nilpotentna reda $\nu_i$, je
+        \begin{equation}\label{enacbaNilpotentnost}
+            (A - \lambda_i I)^\nu = 0\ \text{za}\ \nu \geq \nu_i,
+        \end{equation}
+        torej moramo preveriti linearno neodvisnost $\nu_i$ vektorjev. Po definiciji linearne neodvisnosti mora iz enačbe
+        \begin{equation}\label{dokazNeodvisnostVektorjev}
+            \sum_{\nu = 0}^{\nu_i - 1} \alpha_\nu (A - \lambda_i I)^\nu z
+        \end{equation}
+        slediti, da je $\alpha_\nu = 0$ za $\nu = 0, \ldots, \nu_i-1$. Če enačbo \ref{dokazNeodvisnostVektorjev} pomnožimo z $(A - \lambda_i I)^{\nu_i-1}$ iz leve, enačba \eqref{dokazNeodvisnostVektorjev} z upoštevanjem \eqref{enacbaNilpotentnost} preide v
+        \begin{equation}
+            0 = \alpha_0 (A-\lambda_i I)^{\nu_i-1} z.
+        \end{equation}
+        Ker $(A-\lambda_i I)^{\nu_i-1} z \neq 0$, je $\alpha_0 = 0$. Če bi enačbo \eqref{dokazNeodvisnostVektorjev} pomnožili z $(A - \lambda_i I)^{\nu_i-2}$ in upoštevali, da je $\alpha_0 = 0$, bi dobili $\alpha_1 = 0$ itd. Sledi, da so $\alpha_0, \ldots, \alpha_{\nu_i - 1} = 0$ in posledično vektorji $(A - \lambda_i I)^\nu, \nu = 0, \ldots, \nu_i-1$ neodvisni.
+
+        \item Podobno kot v dokazu točke (1) bi dokazali, da je množica
+        \begin{equation}
+            B_A^{(i)} := \{(A-\lambda_i I)^\nu P_i\ |\ \nu = 0, \ldots, \nu_i-1
+        \end{equation}
+        linearno neodvisna v $\C^{n \times n}$ za vsak $i = 1, \ldots, m$. Dokazati moramo, da so matrike $(A-\lambda_i I)^{\nu} P_i$ neodvisne, torej
+        \begin{equation}
+            \sum_{i=1}^m \sum_{\nu=0}^{\nu_i-1} \alpha_{i, \nu} (A-\lambda_i I)^{\nu} P_i = 0.
+        \end{equation}
+        Če to enačbo za fiksen $i$ pomnožimo s $P_i$ in ker je $P_i \cdot P_j = 0$ za $i \neq j$ in $P_i^2 = P_i$ dobimo
+        \begin{equation}
+            \sum_{\nu = 0}^{\nu_i - 1} \alpha_{i, \nu} (A-\lambda_i I)^{\nu} P_i = 0.
+        \end{equation}
+        Iz linearne neodvisnosti množice $B_A^{(i)}$ sledi, da je $\alpha_{i, \nu} = 0$ za $i = 1, \ldots, m$ in $\nu = 0, \ldots, \nu_i-1$.
+    \end{enumerate}
+\end{dokaz}
+Zanima nas asimptotsko obnašanje zaporedij oblike $A^k$. Za razumevanje asimptotskega obnašanja bomo uporabili neodvisnost množice
+\begin{equation}
+    B_A := \{(A-\lambda_i I)^{\nu} P_i\ |\ i = 1, \ldots, m;\ \nu = 0, \ldots, \nu_i - 1\}
+\end{equation}
+iz leme \ref{lemaNeodvisnost}. Če to množico razširimo na bazo na bazo $\mathbb{B}_A$ prostora $\C^{n \times n}$, potem iz formule \eqref{formulaMatricnePotence} sledi, da so neničelne kooordinate zaporedja $A^k$ v bazi $\mathbb{B}_A$ enake
+\begin{equation}
+    \Big\{{k \choose \nu} \lambda_i^{k-\nu}\ |\ i = 1, \ldots, m;\ \nu = 0, \ldots, \nu_i-1\Big\}.
+\end{equation}
+Ker gre $k \rightarrow \infty$, lahko poenostavimo $\nu = \min\{\nu_i-1, k\}, ..., \nu_i - 1$. Podobne koordinate dobimo, če gledamo zaporedje $A^k x$, torej če gledamo množico
+\begin{equation}
+    \{(A-\lambda_i I)^{\nu} P_i x\ |\ i = 1, \ldots, m;\ \nu = 0, \ldots, \nu_i - 1\} \backslash \{0\}.
+\end{equation}
+Ker je konvergenca v končno dimenzionalnih vektorskih prostorih ekvivalentna konvergenci koordinat, se neodvisno od izbire baze obnašanje zaporedja $A^k$, ko gre $k \rightarrow \infty$, odraža s \emph{koordinatnimi zaporedji}
+\begin{equation}
+    z_{\lambda, \nu} (k) := {k \choose \nu} \lambda^{k - \nu}
+\end{equation}
+za $\lambda \in \sigma(A), \nu = 0, \ldots, n-1$ -- tukaj upoštevamo, da je $\nu_i \leq n$ za vsak $i$. V primeru, da vsa koordinatna zaporedja konvergirajo, konvergira tudi zaporedje $A^k$ oziroma $A^k x$. Koordinate limite zaporedja $A^k$, ko gre $k \rightarrow \infty$, se izražajo s pripadajočimi limitami koordinatnih zaporedij.
+
+Konvergenca koordinatnih zaporedij se lahko razbere iz velikosti lastnih vrednosti $\lambda$ in pripadajoče večkratnosti $\nu$.
+\begin{itemize}
+    \item Če je $|\lambda| < 1$, potem gre $z_{\lambda, \nu} (k) \rightarrow 0$, ko gre $k \rightarrow \infty$, za vse $\nu$, ker je $\lim_{k \rightarrow \infty} k^\nu \lambda^k = 0$.
+    \item Če je $|\lambda| > 1$, potem gre $|z_{\lambda, \nu} (k)| \rightarrow 0$, ko gre $k \rightarrow \infty$, za vse $\nu$.
+    \item Če je $|\lambda| = 1$ in $\nu = 0$, potem je $z_{\lambda, 0} (k) = \lambda^k$.
+    \item Če je $|\lambda| = 1$ in $\nu \geq 0$, potem gre $|z_{\lambda, \nu} (k)| \rightarrow \infty$, ko gre $k \rightarrow \infty$.
+\end{itemize}
+
+
+Z uvedbo koordinatnih zaporedij lahko dokažemo lemo \ref{lemaNorme}, iz katere sledi Gelfandova formula \ref{gelfand}.
+\begin{dokaz}
+    (Lema \ref{lemaNorme}) Po izreku o preslikavi spektra  \ref{izrekOPreslikaviSpektra} velja
+    \begin{equation}
+        \left(r(A)\right)^k = r(A^k),
+    \end{equation}
+    torej izbira $N = 1$ za operatorske norme sledi iz posledice \ref{posledicaOperatorskaNorma}. Ocena
+    \begin{equation}
+        N \cdot r(A)^k \leq \norm{A^k}
+    \end{equation}
+    za neki $N > 0$ sledi iz dejstva, da so norme na končno dimenzionalnih prostorih ekvivalentne.
+
+    Dokazati moramo še oceno navzgor. Koordinate zaporedja $A^k$ glede na bazo $\C^{n \times n}$, ki vsebuje množico
+    \begin{equation}
+        B_A := \{(A-\lambda_i I)^{\nu} P_i\ |\ i = 1, \ldots, m;\ \nu = 0, \ldots, \nu_i - 1\},
+    \end{equation}
+    so enake
+    \begin{equation}
+        z_{\lambda, \nu} (k) := {k \choose \nu} \lambda^{k - \nu},
+    \end{equation}
+    kjer je $i = 1, \ldots, m$ in $\nu = 0, \ldots, \nu_i-1$. Ker velja ocena
+    \begin{equation}
+        {k \choose \nu} \leq k^\nu,
+    \end{equation}
+    in ker za $|\lambda| < 1$ velja $k^\nu \lambda^{k-\nu} \rightarrow \infty$, ko gre $k\rightarrow \infty$, za vse $\nu \in \N$, je zaporedje $\frac{1}{\mu^k} A^k$ omejeno, ko gre $k\rightarrow \infty$. Torej je
+    \begin{equation}
+        \frac{1}{\mu^k} \norm{A^k}_\infty \leq M\ \text{oziroma}\ \norm{A^k}_\infty \leq M \mu^k
+    \end{equation}
+    za neko konstanto $M \in \N$ in vsak $n \in \N$. Ocena
+    \begin{equation}
+        \norm{A^k} \leq M \mu^k
+    \end{equation}
+    spet sledi iz dejstva, da so si norme ekvivalentne.
+\end{dokaz}
+\begin{opomba}
+    \leavevmode
+    \begin{enumerate}
+        \item To, da so matrične norme med seboj ekvivalentne, pomeni, da za poljubni normi $\norm{\cdot}_a$ in $\norm{\cdot}_b$ obstajata konstanti $C_1, C_2 > 0$, da za vsako matriko $A \in \C^{n \times n}$ velja
+        \begin{equation}
+            C_1 \norm{A}_a \leq \norm{A}_b \leq C_2 \norm{A}_a.
+        \end{equation}
+        \item Norma $\norm{\cdot}_\infty$ je za $A \in \C^{n \times n}$ definirana kot
+        \begin{equation}
+            \norm{A}_\infty = \max_{j = 1, \ldots, n} \sum_{j = 1}^n |a_{ij}|.
+        \end{equation}
+        Ta norma je ena izmed matričnih norm v razredu $p$-norm in ji pravimo \emph{$\infty$-norma}.
+    \end{enumerate}
+\end{opomba}
+
+\subsection{Asimptotsko obnašanje}
+\begin{definicija}
+    Naj bo $A \in \C^{n \times n}(X)$ in $\norm{\cdot}$ neka matrična norma. Zaporedje $(A^k)$ je:
+    \begin{itemize}
+        \item \emph{omejeno}, če je $\sup_{k \in \N} \norm{A^k} < \infty$,
+        \item \emph{stabilno}, če je $\lim_{k \rightarrow \infty} \norm{A^k} = 0$,
+        \item \emph{konvergentno}, če je $\lim_{k \rightarrow \infty} A^k = P$ za neko matriko $P \in \C^{n \times n}(X)$,
+        \item \emph{periodično} s periodo $p$, če je $A^p = I$,
+        \item \emph{Ces\`arovo konvergentno}, če obstaja limita $\lim_{k \rightarrow \infty} \Big(\frac{1}{k}\sum_{l=0}^{k-1} A^l\Big)$.
+    \end{itemize}
+    Členom zaporedja $A^{(k)} = \frac{1}{k}\sum_{l=0}^{k-1} A^l$ pravimo \emph{Ces\`arova povprečja}.
+\end{definicija}
+Pokazali bomo, da se asimptotsko obnašanje $A^k$ odraža z velikostjo $r(A)$ v primerjavi z $1$. Pred tem se dogovorimo za nekaj oznak.
+
+Koreni enote v $\C$ so rešitve enačbe $z^q = 1$, torej
+\begin{equation}
+    \Gamma_q := \{e^{\frac{2 k \pi i}{q}}\ |\ k = 0, \ldots, q - 1\}.
+\end{equation}
+Z $\Gamma$ bomo označili enotsko kronico v $\C$.
+
+V izreku bomo uporabili tudi naslednjo definicijo.
+\begin{definicija}
+    Lastna vrednost $\lambda_0 > 0$ matrike $A \in \C^{n \times n}$ je \emph{dominantna lastna vrednost}, če je $\lambda_0 \in \sigma(A)$ in velja $|\lambda| < \lambda_0$ za vse $\lambda \in \sigma(A) \backslash \{\lambda_0\}$.
+\end{definicija}
+\begin{izrek}
+    Naj bo $A \in \C^{n \times n}$. Naj bo $\{A^k\}_{k\in\N}$ matrično zaporedje. Veljajo naslednje trditve:
+    \begin{enumerate}
+        \item $\{A^k\}_{k\in\N}$ je stabilno natanko tedaj, ko je $|r(A)| < 1$.
+        \item $\{A^k\}_{k\in\N}$ je omejeno natanko tedaj, ko je $|r(A)| \leq 1$ in so vse lastne vrednosti ....................
+        \item $\{A^k\}_{k\in\N}$ je periodično s periodo $p$ natanko tedaj, ko je omejeno in je $\sigma(A) \subseteq \Gamma_p$.
+        \item d) .................
+    \end{enumerate}
+\end{izrek}
+\begin{dokaz}
+    DOKAZ TRDITVE 3.5.
+\end{dokaz}
+\begin{zgled}
+    \begin{equation}
+        T_1 =
+        \begin{bmatrix}
+            1 & 0 \\
+            1 & 1
+        \end{bmatrix},
+        T_2 = \frac{1}{2}
+        \begin{bmatrix}
+            1 & 0 \\
+            1 & 1
+        \end{bmatrix},
+        T_3 = \frac{1}{2}
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 1
+        \end{bmatrix},
+        T_4 =
+        \begin{bmatrix}
+            0 & 1 \\
+            1 & 0
+        \end{bmatrix},
+        T_5 =
+        \begin{bmatrix}
+            1 & 1 \\
+            1 & 1
+        \end{bmatrix},
+    \end{equation}
+\end{zgled}
+
+\section{Primer uporabe}
+
+\section*{Slovar strokovnih izrazov}
+
+\geslo{}{}
+\geslo{}{}
+
+% seznam uporabljene literature
+\begin{thebibliography}{99}
+
+\bibitem{agbinya} J.~I.~Agbinya, \emph{Applied Data Analytics -- Principles and Applications}, River Publishers, Denmark, 2020.
+
+\bibitem{kramar} A.~B\'{a}tkai, M.~Kramar Fijavž in A.~Rhandi, \emph{Positive Operator Semigroups From Finite To Infinite Dimensions}, Birkh\"{a}user/Springer, 2017.
+
+\bibitem{meyer} C.~Meyer, \emph{Matrix Analysis and Applied Linear Algebra}, SIAM, 2000.
+
+
+\end{thebibliography}
+
+\end{document}
+
