@@ -452,10 +452,10 @@ Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih las
 
 
 \begin{definicija}
-    Matrika $P \in \C^{n \times n}$ je \emph{projekcija}, če velja $P^2 = P$.
+    Matrika $P \in \C^{n \times n}$ je \emph{projektor}, če velja $P^2 = P$.
 \end{definicija}
 \begin{zgled}
-    Poglejmo si primer pravokotne projekcije v prostoru $\R^3$. Za pravokotno projekcijo velja, da je $\ker P \bot \Ima P$. Projicirajmo vektor $v = (1,1,0)$ pravokotno na ravnino $\Sigma$, ki je podana z enačbo $x + y + z = 0$. Naj bo $n = (1,1,1)$ normalni vektor te ravnine, ki ni normiran. Vemo, da s formulo
+    Poglejmo si primer pravokotnega projektorja v prostoru $\R^3$. Za pravokotni projektor velja, da je $\ker P \bot \Ima P$. Projicirajmo vektor $v = (1,1,0)$ pravokotno na ravnino $\Sigma$, ki je podana z enačbo $x + y + z = 0$. Naj bo $n = (1,1,1)$ normalni vektor te ravnine, ki ni normiran. Vemo, da s formulo
     \begin{equation}\label{eqProjekcijaVektor}
         \operatorname{proj}_{n}(v) = \frac{n \cdot v}{n\cdot n}\cdot n
     \end{equation}
@@ -475,7 +475,7 @@ Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih las
     \begin{equation*}
         x = \operatorname{proj}_\Sigma (v) = \frac{1}{3}\cdot (1,1,-2).
     \end{equation*}
-    Bolj zanimiv kot le izračun $\operatorname{proj}_\Sigma (v)$, pa je izračun projekcijske matrike, ki vektor $v$ projicira na vektor $n$. Če pišemo skalarni produkt kot množenje matrik, tj. $a\cdot b = a^T \cdot b$, iz asociativnosti matričnega množenja sledi
+    Bolj zanimiv kot le izračun $\operatorname{proj}_\Sigma (v)$ pa je izračun projektorja, ki vektor $v$ projicira na vektor $n$. Če pišemo skalarni produkt kot množenje matrik, tj. $a\cdot b = a^T \cdot b$, iz asociativnosti matričnega množenja sledi
     \begin{equation*}
         \operatorname{proj}_{n}(v) = \frac{n^T  v}{n^T n}\cdot n = \frac{(n^T  v)n}{n^T n} = \frac{n(n^T  v)}{n^T n} = \frac{n  n^T}{n^T n}\cdot v.
     \end{equation*}
@@ -488,7 +488,7 @@ Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih las
             1 & 1 & 1
         \end{bmatrix},
     \end{equation*}
-    velja pa tudi $P^2 = P$, kar pomeni, da je $P$ res \emph{projekcija}. Enačba $\operatorname{proj}_n (v) = P v$ pa sledi direktno iz izpeljave.
+    velja pa tudi $P^2 = P$, kar pomeni, da je $P$ res \emph{projektor}. Enačba $\operatorname{proj}_n (v) = P v$ pa sledi direktno iz izpeljave.
 \end{zgled}
 \begin{definicija}
     Naj bosta $X$ in $Y$ vektorska prostora nad $\C$, za katera velja $X \cap Y = \emptyset$. Tedaj vsoti
@@ -498,13 +498,13 @@ Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih las
     pravimo \emph{direktna vsota} in jo označimo z $X \oplus Y$.
 \end{definicija}
 \begin{trditev}
-    Matrika $P \in \C^{n \times n}$ je projekcija natanko tedaj, ko je
+    Matrika $P \in \C^{n \times n}$ je projektor natanko tedaj, ko je
     \begin{equation*}
         \C^n = \ker P \oplus \Ima P\quad  \text{in}\quad P|_{\Ima P} = I.
     \end{equation*}
 \end{trditev}
 \begin{dokaz}
-    $(\Leftarrow)$$\quad P|_{\Ima P} = I$ implicira $P(P x) = P x$, tj. $P^2 = P$, kar je ravno definicija projekcije.
+    $(\Leftarrow)$$\quad P|_{\Ima P} = I$ implicira $P(P x) = P x$, tj. $P^2 = P$, kar je ravno definicija projektorja.
 
     $(\Rightarrow)$Naj bo $x \in \C^n$ in $y \Ima P$, tako da velja $y = P x$. Definirajmo $z := x-y$. Potem je $x = z + y$ in
     \begin{equation*}
@@ -557,7 +557,7 @@ Poglejmo si posledico trditve \ref{trditevMinimalniPolinom}
     \begin{equation*}
         p(A) = q(A)\  \Longleftrightarrow\ p \equiv q \mod m_A.
     \end{equation*}
-    V posebnem primeru velja, da je $p(A)$ projekcija natanko tedaj, ko je
+    V posebnem primeru velja, da je $p(A)$ projektor natanko tedaj, ko je
     \begin{equation*}
         p^2 \equiv p \mod m_A.
     \end{equation*}
@@ -626,7 +626,7 @@ Za odprto množico $U \subset \C$ definirajmo \emph{karakteristično funkcijo} $
         0, \lambda \notin U
     \end{cases}.
 \end{equation*}
-Funkcija $\chi_U$ je idempotent, kar pomeni, da velja $\chi_U \cdot \chi_U = \chi_U$. Po posledici \ref{posledicaProjekcija} sklepamo, da je $\chi_U(A) \in \mathcal{P}_A$ projekcija, ki komutira z A. Vzemimo posebno množico takšnih projekcij.
+Funkcija $\chi_U$ je idempotent, kar pomeni, da velja $\chi_U \cdot \chi_U = \chi_U$. Po posledici \ref{posledicaProjekcija} sklepamo, da je $\chi_U(A) \in \mathcal{P}_A$ projektor, ki komutira z A. Vzemimo posebno množico takšnih projektorjev.
 \begin{definicija}
 Naj bodo $U_1, \ldots, U_m \subset \C$ odprte množice, ki zadostujejo pogojema:
 \begin{enumerate}
@@ -637,21 +637,28 @@ Z $\chi_i$ označimo karakteristično funkcijo množice $U_i$. Matrike
 \begin{equation} \label{definicijaProjekcije}
     P_i := \chi_i(A) \in \mathcal{P}_A\ \text{za}\ i = 1,\ldots, m,
 \end{equation}
-so vse projekcije, ki jih imenujemo \emph{spektralne projekcije}, njihovo zalogo vrednosti pa označimo kot 
+so vse projektorji, ki jih imenujemo \emph{spektralni projektorji}, njihovo zalogo vrednosti pa označimo kot 
 \begin{equation} \label{zalogeProjekcij}
     X_i := \Ima P_i = P_i \C^n
 \end{equation}
 in jo imenujemo \emph{korenski podprostor} za lastno vrednost $\lambda_i$.
 \end{definicija}
 \begin{opomba}
-    Omenimo, da je $P_i$ neodvisna od izbire $U_i$, poleg tega pa velja še $P_i \neq 0$ za vsak $i$.
+    \leavevmode
+    \begin{enumerate}
+        \item Omenimo, da je $P_i$ neodvisna od izbire $U_i$, poleg tega pa velja še $P_i \neq 0$ za vsak $i$.
+        \item Poznamo formulo za izračun spektralnih projektorjev diagonalizabilnih matrik. Če je $A$ diagonalizabilna matrika z lastnimi vrednostmi $\lambda_1, \ldots, \lambda_m$, potem spektralni projektor za lastno vrednost $\lambda_i$ izračunamo kot:
+        \begin{equation}\label{spektralniProjektorjiDiag}
+            P_i = \prod_{\substack{\ j=1 \\ j \neq i}}^m \frac{A-\lambda_j}{\lambda_i-\lambda_j}, \quad i=1, \ldots, m.
+        \end{equation}
+    \end{enumerate}
 \end{opomba}
 
 Za naslednji izrek moramo razumeti pojem invariantnosti.
 \begin{definicija}
     Podprostor $X_i$ prostora $A$ je \emph{invarianten za $A$} oz. \emph{$A$-invarianten}, kadar velja $A x \in X_i$ za vsak $x \in X_i$, kar lahko zapišemo kot $A X_i \subseteq X_i$.
 \end{definicija}
-Projekcije $P_i$ komutirajo z $A$, zato so podprostori $X_i$ invariantni za $A$, in velja naslednje. 
+Projektorji $P_i$ komutirajo z $A$, zato so podprostori $X_i$ invariantni za $A$, in velja naslednje. 
 \begin{izrek}\label{trditevSpektralniRazcep}
     Naj $A \in \C^{n \times n}$ matrika z lastnimi vrednostmi $\lambda_1, \ldots, \lambda_m$ in z geometrijskimi večkratnostmi $\nu_1, \ldots, \nu_m$. Če vzamemo $P_i$ in $X_i$ kot v \eqref{definicijaProjekcije} in \eqref{zalogeProjekcij}, potem je
     \begin{equation}\label{eqSpektralniRazcep}
@@ -726,7 +733,7 @@ kjer ima $A_i$ le eno samo lastno vrednost, in sicer $\lambda_i$. Iz tega dejstv
 
 S pomočjo spektralnega razcepa v izreku \ref{trditevSpektralniRazcep} lahko izračunamo $f(A)$ brez iskanja interpolacijskih polinomov.
 \begin{izrek} \label{trditevFormula}
-    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \lambda_2, \ldots, \lambda_m$, ki imajo po vrsti večkratnosti $\nu_1, \nu_2, \ldots, \nu_m$. Definirajmo projekcije $P_i$ kot v \eqref{definicijaProjekcije}. Tedaj za vsako funkcijo $f \in C_A^\infty$ velja
+    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \lambda_2, \ldots, \lambda_m$, ki imajo po vrsti večkratnosti $\nu_1, \nu_2, \ldots, \nu_m$. Definirajmo projektorje $P_i$ kot v \eqref{definicijaProjekcije}. Tedaj za vsako funkcijo $f \in C_A^\infty$ velja
     \begin{equation*}
         f(A) = \sum_{i=1}^m \sum_{\nu = 0}^{\nu_i - 1} \frac{f^{(\nu)}(\lambda_i)}{\nu !}(A - \lambda_i)^\nu P_i.
     \end{equation*}
@@ -963,7 +970,7 @@ V izreku bomo uporabili tudi naslednjo definicijo.
         \item $(A^k)_{k\in\N}$ je stabilno natanko tedaj, ko je $r(A) < 1$.
         \item $(A^k)_{k\in\N}$ je omejeno natanko tedaj, ko je $r(A) \leq 1$ in imajo vse lastne vrednosti $\lambda_i$, za katere velja $|\lambda_i| = 1$, večkratnost 1.
         \item $(A^k)_{k\in\N}$ je periodično s periodo $p$ natanko tedaj, ko je omejeno in je $\sigma(A) \subseteq \Gamma_p$.
-        \item Če je $\lambda_1 = 1 \in \sigma(A)$ in $\lim_{k\rightarrow\infty} A^k = P_1$ ($P_1$ je spektralna projekcija $A$ za lastno vrednost $\lambda_1$) natanko tedaj, ko je $\lambda_1$ radialno dominantna lastna vrednost z večkratnostjo 1.
+        \item Če je $\lambda_1 = 1 \in \sigma(A)$ in $\lim_{k\rightarrow\infty} A^k = P_1$ ($P_1$ je spektralni projektor $A$ za lastno vrednost $\lambda_1$) natanko tedaj, ko je $\lambda_1$ radialno dominantna lastna vrednost z večkratnostjo 1.
     \end{enumerate}
 \end{izrek}
 \begin{dokaz}
@@ -1056,7 +1063,7 @@ Poglejmo si uporabo izreka na nekaj zgledih.
             \end{vmatrix}
             = (\frac{1}{2}-\lambda)^2-\frac{1}{4} = \lambda^2-\lambda = \lambda(\lambda - 1).
         \end{equation*}
-        Lastni vrednosti $C$ sta $\lambda_1 = 0$ in $\lambda_2 = 1$. Ker je $\lambda_2 = 1$ radialno dominantna lastna vrednost, je $\lim_{k\rightarrow\infty} C^k = P_2$, kjer je $P_2$ spektralna projekcija za lastno vrednost $\lambda_2$. \textbf{$P_2$ izračunamo .... kako?????}
+        Lastni vrednosti $C$ sta $\lambda_1 = 0$ in $\lambda_2 = 1$. Ker je $\lambda_2 = 1$ radialno dominantna lastna vrednost, je $\lim_{k\rightarrow\infty} C^k = P_2$, kjer je $P_2$ spektralni projektor za lastno vrednost $\lambda_2$. Ker je matrika $C$ dimenzije 2 in ima dve različni lastni vrednosti, je $C$ diagonalizabilna, torej lahko $P_2$ izračunamo s pomočjo formule za spektralne projektorje diagonalizabilnih matrik \eqref{spektralniProjektorjiDiag}. Izkaže se, da je $P_2 = C$.
         \item Naj bo
         \begin{equation*}
             D =
