@@ -13,16 +13,16 @@
 
 %  V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga organizacije dela --
 %  v katerem poglavju/razdelku je kaj, pač pa le opis vsebine.
-\povzetek{}
+\povzetek{V par stavkih poveš, kaj je bistvo te naloge (ne rezultatov, ampak s čem se ukvarja ta naloga)}
 
 %  Prevod slovenskega povzetka v angleščino.
 \abstract{}
 
 % navedite vsaj eno klasifikacijsko oznako --
 % dostopne so na www.ams.org/mathscinet/msc/msc2020.html
-\klasifikacija{}
-\kljucnebesede{} % navedite nekaj ključnih pojmov, ki nastopajo v delu
-\keywords{} % angleški prevod ključnih besed
+\klasifikacija{15A16, 15A18, 60J10}
+\kljucnebesede{matrika, matrične potence, markovska veriga, lastna vrednost, spektralni projektor, matrično zaporedje, Ces\`arova konvergenca} % navedite nekaj ključnih pojmov, ki nastopajo v delu
+\keywords{matrix, powers of matrices, Markov chain, eigenvalue, spectal projection, matrix sequence, Ces\`aro summability} % angleški prevod ključnih besed
 
 \zapisiMetaPodatke  % poskrbi za metapodatke in veljaven PDF/A-1b standard
 
@@ -32,6 +32,7 @@
 \usepackage{graphicx}
 \usepackage{mathtools}
 \usepackage{commath}
+\usepackage{dsfont}
 
 % lokacija slik
 \graphicspath{{./slike/}}
@@ -54,7 +55,7 @@
 \begin{document}
 
 \section{Uvod}
-Matrike so matematični objekti, ki so zelo uporabni v različnih vejah matematike in ostalih znanostih. V teoriji grafov matrika sosednosti enolično določa graf, ki je lahko utežen ali pa neutežen. V linearni algebri jih uporabljamo na primer za zapis linearnih preslikav med vektorskimi prostori in za proučevanje koeficientov sistemov linearnih enačb. V nadaljevanju bodo vse matrike kompleksne. To pomeni, da so koordinate matrike $A = [a_{ij}]_{1 \leq i,j \leq n}$ kompleksna števila, tj. $a_{ij} \in \C$ za $i,j = 1, \ldots, n$.
+Matrike so matematični objekti, ki so zelo uporabni v različnih vejah matematike in ostalih znanostih. V teoriji grafov matrika sosednosti enolično določa graf, ki je lahko utežen ali pa neutežen. V linearni algebri jih uporabljamo na primer za zapis linearnih preslikav med vektorskimi prostori in za proučevanje koeficientov sistemov linearnih enačb. V nadaljevanju bodo vse matrike kompleksne. To pomeni, da so koordinate matrike $A = [a_{ij}]_{1 \leq i,j \leq n}$ kompleksna števila, tj.\ $a_{ij} \in \C$ za $i,j = 1, \ldots, n$.
 
 V nekaterih primerih pa nam poleg matrik pridejo prav tudi matrične funkcije. Eden od primerov matričnih funkcij je funkcija
 \[f: \C^{n\times n} \rightarrow \C^{n\times n}\] s predpisom
@@ -93,7 +94,7 @@ Poglejmo si uporabo matričnih potenc na primeru Fibonaccijevega zaporedja.
             g_n
         \end{bmatrix}
     \end{equation*}
-    za vsak $n \in \mathbb{N}$. Rekurzivno uporabljamo zgornji predpis, da dobimo
+    za vsak $n \in \N$. Rekurzivno uporabljamo zgornji predpis, da dobimo
     \begin{equation*}
         \begin{bmatrix}
             f_{n+1} \\
@@ -168,7 +169,7 @@ Poglejmo si uporabo matričnih potenc na primeru Fibonaccijevega zaporedja.
 
 Tekom študija smo že spoznali en način za računanje matričnih potenc -- potence matrik lahko računamo s prevedbo na Jordanovo formo.
 
-Naj bo $A \in \mathbb{R}^{m\times m}$ matrika. Potem velja:
+Naj bo $A \in \R^{m\times m}$ matrika. Potem velja:
 \begin{equation*}
     A^n = PJ^nP^{-1},
 \end{equation*}
@@ -245,7 +246,7 @@ V posebnem primeru, ko je $J$ diagonalna matrika, velja:
     \end{equation*}
     Izračunamo, da je:
     \begin{equation*}
-        f_n = \frac{\sqrt{5}}{5}\Big[ \Big(\frac{1+\sqrt{5}}{2}\Big)^n - \Big(\frac{1-\sqrt{5}}{2}\Big)^n \Big], \quad n \in \mathbb{N}_0.
+        f_n = \frac{\sqrt{5}}{5}\Big[ \Big(\frac{1+\sqrt{5}}{2}\Big)^n - \Big(\frac{1-\sqrt{5}}{2}\Big)^n \Big], \quad n \in \N_0.
     \end{equation*}
     S pomočjo matričnih potenc smo iz rekurzivnega predpisa dobili eksplicitno formulo zaporedja.
 \end{zgled}
@@ -254,7 +255,7 @@ Zakaj potrebujemo nove metode za računanje matričnih potenc, če jih že znamo
 
 Želeli bomo opisati asimptotsko obnašanje matričnih zaporedij s splošnim členom $A_n = A^n$, kjer je $A \in \R^{m \times m}$. To obnašanje se lahko razbere že iz spektra matrike, včasih pa celo le iz spektralnega radija.
 
-\subsection{Markovske verige}
+\subsection{Markovske verige}\label{podpoglavjeMarkovskeVerige}
 
 Uporabo matričnih potenc bomo prikazali na primeru markovskih verig. Navedimo definicijo markovske verige.
 \begin{definicija}
@@ -262,7 +263,7 @@ Uporabo matričnih potenc bomo prikazali na primeru markovskih verig. Navedimo d
     \begin{equation*}
         P(X_n = s_n | X_0 = s_0, X_1 = s_1, \ldots, X_{n-1} = s_{n-1}) = P(X_n = s_n | X_{n-1} = s_{n-1}),
     \end{equation*}
-    tj. verjetnost stanja na $n$-tem koraku je odvisna le od stanja na $(n-1)$-tem koraku. Vpeljemo še pojma \emph{prehodne verjetnosti} $p_{ij} = P(X_n = s_j | X_{n-1} = s_i)$ in \emph{prehodne matrike} $P = [p_{ij}]_{1 \leq i,j \leq n}$.
+    tj.\ verjetnost stanja na $n$-tem koraku je odvisna le od stanja na $(n-1)$-tem koraku. Vpeljemo še pojma \emph{prehodne verjetnosti na $n$-tem koraku} $p_{ij} = P(X_n = s_j | X_{n-1} = s_i)$ in \emph{prehodne matrike} $P = [p_{ij}]_{1 \leq i,j \leq n}$.
 \end{definicija}
 Poglejmo si zgled markovske verige, ki bo hkrati tudi motiviral računanje limite zaporedja $A_n = A^n$, če ta obstaja. 
 \begin{zgled}
@@ -298,7 +299,7 @@ Poglejmo si zgled markovske verige, ki bo hkrati tudi motiviral računanje limit
     Ker je izbira naslednjega vozlišče v zaporedju odvisna le od trenutnega vozlišča, ima naše zaporedje markovsko lastnost, torej bo naša pot v grafu markovska veriga. Kaj nam pa pove prehodna matrika?
     \begin{itemize}
         \item Matrika $P$ nam pove, kakšna je verjetnost, da bomo prišli v določeno vozlišče v naslednjem koraku, če smo trenutno v vozlišču, ki ga predstavlja vrstica.
-        \item $P^2$ nam pove, kakšna je verjetnost, da bomo prišli v določeno vozlišče čez 2 koraka.
+        \item $P^2$ nam pove, kakšna je verjetnost, da bomo prišli v določeno vozlišče čez $2$ koraka.
         \item ...
         \item $P^n$ nam pove, kakšna je verjetnost, da bomo prišli v določeno vozlišče čez $n$ korakov.
     \end{itemize}
@@ -342,7 +343,7 @@ torej $\ker(\Phi_A)$ je množica vseh polinomov, za katere je $p(A) = 0$.
     \emph{Minimalni polinom} $m_A \in \C[x]$ je neničeln monični polinom najmanjše stopnje iz $\ker(\Phi_A)$, tj.\ monični polinom $p$ najnižje stopnje, za katerega je $p(A) = 0$.
 \end{definicija}
 \begin{opomba}
-    \emph{Monični polinom} je polinom z vodilnim koeficientom enakim 1.
+    \emph{Monični polinom} je polinom z vodilnim koeficientom enakim $1$.
 \end{opomba}
 Spomnimo se, da je minimalni polinom $m_A$ enolično določen z matriko $A$. Potrebovali bomo še pojem \emph{lastne vrednosti} in \emph{lastnega vektorja} matrike $A$, osvežimo pa še definicijo \emph{karakterističnega polinoma} matrike $A$. Poleg tega navedimo še definicijo \emph{lastnega podprostora}.
 \begin{definicija}
@@ -406,12 +407,12 @@ V nadaljevanju bomo omenjali tudi \emph{matrične} in \emph{operatorske norme}, 
         \begin{equation*}
             \norm{A}_1 = \max_{1 \leq j \leq n} \sum_{i=1}^n |a_{ij}|,
         \end{equation*}
-        tj. največja od vsot absolutnih vrednosti elementov v isti vrstici,
+        tj.\ največja od vsot absolutnih vrednosti elementov v isti vrstici,
         \item \emph{$\infty$-norma}, ki je definirana kot
         \begin{equation*}
             \norm{A}_\infty = \max_{1 \leq i \leq n} \sum_{j=1}^n |a_{ij}|,
         \end{equation*}
-        tj. največja od vsot absolutnih vrednosti elementov v istem stolpcu.
+        tj.\ največja od vsot absolutnih vrednosti elementov v istem stolpcu.
     \end{itemize}
 \end{zgled}
 Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih lastnosti.
@@ -475,7 +476,7 @@ Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih las
     \begin{equation*}
         x = \operatorname{proj}_\Sigma (v) = \frac{1}{3}\cdot (1,1,-2).
     \end{equation*}
-    Bolj zanimiv kot le izračun $\operatorname{proj}_\Sigma (v)$ pa je izračun projektorja, ki vektor $v$ projicira na vektor $n$. Če pišemo skalarni produkt kot množenje matrik, tj. $a\cdot b = a^T \cdot b$, iz asociativnosti matričnega množenja sledi
+    Bolj zanimiv kot le izračun $\operatorname{proj}_\Sigma (v)$ pa je izračun projektorja, ki vektor $v$ projicira na vektor $n$. Če pišemo skalarni produkt kot množenje matrik, tj.\ $a\cdot b = a^T \cdot b$, iz asociativnosti matričnega množenja sledi
     \begin{equation*}
         \operatorname{proj}_{n}(v) = \frac{n^T  v}{n^T n}\cdot n = \frac{(n^T  v)n}{n^T n} = \frac{n(n^T  v)}{n^T n} = \frac{n  n^T}{n^T n}\cdot v.
     \end{equation*}
@@ -504,7 +505,7 @@ Operatorska norma je torej podrazdred matričnih norm in ima nekaj zanimivih las
     \end{equation*}
 \end{trditev}
 \begin{dokaz}
-    $(\Leftarrow)$$\quad P|_{\Ima P} = I$ implicira $P(P x) = P x$, tj. $P^2 = P$, kar je ravno definicija projektorja.
+    $(\Leftarrow)$$\quad P|_{\Ima P} = I$ implicira $P(P x) = P x$, tj.\ $P^2 = P$, kar je ravno definicija projektorja.
 
     $(\Rightarrow)$Naj bo $x \in \C^n$ in $y \Ima P$, tako da velja $y = P x$. Definirajmo $z := x-y$. Potem je $x = z + y$ in
     \begin{equation*}
@@ -656,7 +657,7 @@ in jo imenujemo \emph{korenski podprostor} za lastno vrednost $\lambda_i$.
 
 Za naslednji izrek moramo razumeti pojem invariantnosti.
 \begin{definicija}
-    Podprostor $X_i$ prostora $A$ je \emph{invarianten za $A$} oz. \emph{$A$-invarianten}, kadar velja $A x \in X_i$ za vsak $x \in X_i$, kar lahko zapišemo kot $A X_i \subseteq X_i$.
+    Podprostor $X_i$ prostora $A$ je \emph{invarianten za $A$} oz.\ \emph{$A$-invarianten}, kadar velja $A x \in X_i$ za vsak $x \in X_i$, kar lahko zapišemo kot $A X_i \subseteq X_i$.
 \end{definicija}
 Projektorji $P_i$ komutirajo z $A$, zato so podprostori $X_i$ invariantni za $A$, in velja naslednje. 
 \begin{izrek}\label{trditevSpektralniRazcep}
@@ -716,7 +717,7 @@ kjer ima $A_i$ le eno samo lastno vrednost, in sicer $\lambda_i$. Iz tega dejstv
     \begin{equation} \label{strogaVsebovanost}
         X_i \subset \ker (A - \lambda_i I)^{\nu_i}.
     \end{equation}
-    Recimo, da je vsebovanost stroga, tj. obstaja neničeln vektor $x \in \ker (A - \lambda_i I)^{\nu_i} \backslash X_i$. Za neki $i \neq j$ obstaja $y := P_j x \in X_j \cap \ker (A - \lambda_i I)^{\nu_i}$. Vzamemo največji $p \in \N$, da velja
+    Recimo, da je vsebovanost stroga, tj.\ obstaja neničeln vektor $x \in \ker (A - \lambda_i I)^{\nu_i} \backslash X_i$. Za neki $i \neq j$ obstaja $y := P_j x \in X_j \cap \ker (A - \lambda_i I)^{\nu_i}$. Vzamemo največji $p \in \N$, da velja
     \begin{equation*}
         z := (A - \lambda_i I)^p y \neq 0.
     \end{equation*}
@@ -724,7 +725,7 @@ kjer ima $A_i$ le eno samo lastno vrednost, in sicer $\lambda_i$. Iz tega dejstv
     \begin{equation*}
         (a - \lambda_i I) z = (a - \lambda_i I)^{p+1} y = 0
     \end{equation*}
-    sledi, da je $z$ lastni vektor za lastno vrednost $\lambda_i$, tj. $A z = \lambda_i z$, iz česar sledi, da
+    sledi, da je $z$ lastni vektor za lastno vrednost $\lambda_i$, tj.\ $A z = \lambda_i z$, iz česar sledi, da
     \begin{equation*}
         (A - \lambda_j I)^{\nu_j} z = ( \underbrace{A - \lambda_i I}_\text{zakaj je to 0???} + \lambda_i I - \lambda_j I)^{\nu_j} z = (\lambda_i - \lambda_j)^{\nu_j} z \neq 0,
     \end{equation*}
@@ -766,7 +767,7 @@ Tu zberimo še nekaj rezultatov o spektru, ki jih bomo kasneje potrebovali.
     \begin{equation*}
         r(A) := \max \{|\lambda|, \lambda \in \sigma(A)\},
     \end{equation*}
-    tj. po absolutni vrednosti največja lastna vrednost matrike $A$.
+    tj.\ po absolutni vrednosti največja lastna vrednost matrike $A$.
 \end{definicija}
 
 Naslednja trditev nam pove, kako se preslika spekter matrike za neko preslikavo iz $C_A^\infty$.
@@ -878,9 +879,9 @@ Zanima nas asimptotsko obnašanje zaporedij oblike $(A^k)_{k\in\N}$. Za razumeva
 \end{equation*}
 (ker nas zanima $k \rightarrow \infty$, lahko poenostavimo zgornjo mejo z $\min\{\nu_i-1, k\}$ na $\nu_i - 1$).
 \begin{opomba}
-    \emph{Baza} $\mathbb{B}$ vektorskega prostora matrik $\C^{n\times n}$ je množica velikosti $n^2$ baznih matrik $B_i \in \C^{n\times n}$, tako da lahko vsako matriko $A \in \C^{n\times n}$ zapišemo kot linearno kombinacijo baznih matrik, tj. $A = \alpha_1 B_1 + \ldots + \alpha_{n^2} B_{n^2}$ za $\alpha_1, \ldots, \alpha_{n^2} \in \C$.
+    \emph{Baza} $\mathbb{B}$ vektorskega prostora matrik $\C^{n\times n}$ je množica velikosti $n^2$ baznih matrik $B_i \in \C^{n\times n}$, tako da lahko vsako matriko $A \in \C^{n\times n}$ zapišemo kot linearno kombinacijo baznih matrik, tj.\ $A = \alpha_1 B_1 + \ldots + \alpha_{n^2} B_{n^2}$ za $\alpha_1, \ldots, \alpha_{n^2} \in \C$.
 \end{opomba}
-Podobne koordinate dobimo, če gledamo zaporedje $A^k x$, torej če gledamo množico
+Podobne koordinate dobimo, če gledamo zaporedje $(A^k x)_{k\in\N}$, torej če gledamo množico
 \begin{equation*}
     \{(A-\lambda_i I)^{\nu} P_i x\ |\ i = 1, \ldots, m;\ \nu = 0, \ldots, \nu_i - 1\} \backslash \{0\}.
 \end{equation*}
@@ -941,7 +942,7 @@ Z uvedbo koordinatnih zaporedij lahko dokažemo lemo \ref{lemaNorme}, iz katere 
 \end{opomba}
 
 \subsection{Asimptotsko obnašanje}
-\begin{definicija}
+\begin{definicija}\label{definicijaAsimptotika}
     Naj bo $A \in \C^{n\times n}$ in $\norm{\cdot}$ neka matrična norma. Zaporedje $(A^k)_{k\in\N}$ je:
     \begin{itemize}
         \item \emph{omejeno}, če je $\sup_{k\in \N} \norm{A^k} < \infty$,
@@ -958,19 +959,19 @@ Koreni enote v $\C$ so rešitve enačbe $z^q = 1$, torej
 \begin{equation*}
     \Gamma_q := \{e^{\frac{2 k \pi i}{q}}\ |\ k = 0, \ldots, q - 1\}.
 \end{equation*}
-Z $\Gamma$ bomo označili enotsko kronico v $\C$.
+Z $\Gamma$ bomo označili enotsko krožnico v $\C$.
 
 V izreku bomo uporabili tudi naslednjo definicijo.
 \begin{definicija}
     Lastna vrednost $\lambda_0 > 0$ matrike $A \in \C^{n \times n}$ je \emph{radialno dominantna lastna vrednost}, če je $\lambda_0 \in \sigma(A)$ in velja $|\lambda| < \lambda_0$ za vse $\lambda \in \sigma(A) \backslash \{\lambda_0\}$.
 \end{definicija}
-\begin{izrek}
+\begin{izrek}\label{izrekAsimptotika}
     Naj bo $A \in \C^{n \times n}$. Naj bo $(A^k)_{k\in\N}$ matrično zaporedje. Veljajo naslednje trditve:
     \begin{enumerate}
         \item $(A^k)_{k\in\N}$ je stabilno natanko tedaj, ko je $r(A) < 1$.
-        \item $(A^k)_{k\in\N}$ je omejeno natanko tedaj, ko je $r(A) \leq 1$ in imajo vse lastne vrednosti $\lambda_i$, za katere velja $|\lambda_i| = 1$, večkratnost 1.
+        \item $(A^k)_{k\in\N}$ je omejeno natanko tedaj, ko je $r(A) \leq 1$ in imajo vse lastne vrednosti $\lambda_i$, za katere velja $|\lambda_i| = 1$, večkratnost $1$.
         \item $(A^k)_{k\in\N}$ je periodično s periodo $p$ natanko tedaj, ko je omejeno in je $\sigma(A) \subseteq \Gamma_p$.
-        \item Če je $\lambda_1 = 1 \in \sigma(A)$ in $\lim_{k\rightarrow\infty} A^k = P_1$ ($P_1$ je spektralni projektor $A$ za lastno vrednost $\lambda_1$) natanko tedaj, ko je $\lambda_1$ radialno dominantna lastna vrednost z večkratnostjo 1.
+        \item Če je $\lambda_1 = 1 \in \sigma(A)$ in $\lim_{k\rightarrow\infty} A^k = P_1$ ($P_1$ je spektralni projektor $A$ za lastno vrednost $\lambda_1$) natanko tedaj, ko je $\lambda_1$ radialno dominantna lastna vrednost z večkratnostjo $1$.
     \end{enumerate}
 \end{izrek}
 \begin{dokaz}
@@ -986,21 +987,21 @@ V izreku bomo uporabili tudi naslednjo definicijo.
         \end{equation*}
         Ker je $\lambda_i^p=1$ za vse $i=1,\ldots,m$, sledi $A^p = I$.
 
-        \noindent($\Rightarrow$) Če je $(A^k)_{k\in\N}$ periodično, tj. $A^p = I$ za neki $p\in\N$, je zagotovo omejeno in za vsak $\lambda\in\sigma(A)$ velja $\lambda^p = 1$, iz česar sledi, da je $\sigma(A) \subseteq \Gamma_p$.
+        \noindent($\Rightarrow$) Če je $(A^k)_{k\in\N}$ periodično, tj.\ $A^p = I$ za neki $p\in\N$, je zagotovo omejeno in za vsak $\lambda\in\sigma(A)$ velja $\lambda^p = 1$, iz česar sledi, da je $\sigma(A) \subseteq \Gamma_p$.
         \item ($\Rightarrow$) Naj bo $\lim_{k\rightarrow\infty} A^k = P_1$. Ker limita ni enaka 0, nam (1) pove, da $r(A) \geq 1$. Ker limita obstaja, pomeni, da je zaporedje omejeno, torej iz (2) sledi, da je $r(A) \leq 1$. Sklepamo, da je $r(A) = 1$.
         
-        Če obstaja lastna vrednost $\lambda \neq 1$, da velja $|\lambda| = 1$, potem obstaja koordinatno zaporedje zaporedja $(A^k)_{k\in\N}$ glede na bazo $\mathbb{B}_A$ s predpisom $z_{\lambda,0}(k) = \lambda^k$, ki divergira. Lastna vrednost 1 je torej edini kandidat za radialno dominantno lastno vrednost. Če ima 1 večkratnost več kot 1, potem ima $(A^k)_{k\in\N}$ koordinato $z_{\lambda,1}(k) = k$, ki spet divergira. Lastna vrednost 1 ima torej večkratnost 1.
+        Če obstaja lastna vrednost $\lambda \neq 1$, da velja $|\lambda| = 1$, potem obstaja koordinatno zaporedje zaporedja $(A^k)_{k\in\N}$ glede na bazo $\mathbb{B}_A$ s predpisom $z_{\lambda,0}(k) = \lambda^k$, ki divergira. Lastna vrednost $1$ je torej edini kandidat za radialno dominantno lastno vrednost. Če ima $1$ večkratnost več kot $1$, potem ima $(A^k)_{k\in\N}$ koordinato $z_{\lambda,1}(k) = k$, ki spet divergira. Lastna vrednost $1$ ima torej večkratnost $1$.
 
-        \noindent($\Leftarrow$) Če je 1 radialno dominantna lastna vrednost z večkratnostjo 1, potem koordinatno zaporedje $z_{\lambda,0}(k)$ glede na bazo $\mathbb{B}_A$ konvergira. Iz (1) sledi, da koordinatna zaporedja za lastne vrednosti $|\lambda| < 1$ konvergirajo k 0, zato je $\lim_{k\rightarrow\infty} A^k = P_1$
+        \noindent($\Leftarrow$) Če je $1$ radialno dominantna lastna vrednost z večkratnostjo $1$, potem koordinatno zaporedje $z_{\lambda,0}(k)$ glede na bazo $\mathbb{B}_A$ konvergira. Iz ($1$) sledi, da koordinatna zaporedja za lastne vrednosti $|\lambda| < 1$ konvergirajo k 0, zato je $\lim_{k\rightarrow\infty} A^k = P_1$
     \end{enumerate}
 \end{dokaz}
 Limita zaporedja $(A^k)_{k\in\N}$ torej obstaja samo v dveh primerih:
 \begin{enumerate}
     \item Ko je $r(A) < 1$ oziroma je zaporedje stabilno. V tem primeru je \[\lim_{k\rightarrow\infty} A^k = 0.\]
-    \item Ko je $r(A) = 1 = \lambda_1$ in je $\lambda_1$ radialno dominantna lastna vrednost z večkratnostjo 1. Tedaj je \[\lim_{k\rightarrow\infty} A^k = P_1.\]
+    \item Ko je $r(A) = 1 = \lambda_1$ in je $\lambda_1$ radialno dominantna lastna vrednost z večkratnostjo $1$. Tedaj je \[\lim_{k\rightarrow\infty} A^k = P_1.\]
 \end{enumerate}
 Poglejmo si uporabo izreka na nekaj zgledih.
-\begin{zgled}
+\begin{zgled}\label{zgledAsimptotika}
     \leavevmode
     \begin{enumerate}
         \item Naj bo
@@ -1045,7 +1046,7 @@ Poglejmo si uporabo izreka na nekaj zgledih.
             \end{vmatrix}
             = (\frac{1}{2}-\lambda)^2.
         \end{equation*}
-        $B$ ima lastno vrednost $\lambda = 1/2$ z večkratnostjo 2. Ker je $r(A) = 1/2 < 1$, je zaporedje $(B^k)_{k\in\N}$ stabilno, torej je $\lim_{k\rightarrow\infty} B^k = 0$.
+        $B$ ima lastno vrednost $\lambda = 1/2$ z večkratnostjo $2$. Ker je $r(A) = 1/2 < 1$, je zaporedje $(B^k)_{k\in\N}$ stabilno, torej je $\lim_{k\rightarrow\infty} B^k = 0$.
         \item Naj bo
         \begin{equation*}
             C = \frac{1}{2}
@@ -1063,7 +1064,7 @@ Poglejmo si uporabo izreka na nekaj zgledih.
             \end{vmatrix}
             = (\frac{1}{2}-\lambda)^2-\frac{1}{4} = \lambda^2-\lambda = \lambda(\lambda - 1).
         \end{equation*}
-        Lastni vrednosti $C$ sta $\lambda_1 = 0$ in $\lambda_2 = 1$. Ker je $\lambda_2 = 1$ radialno dominantna lastna vrednost, je $\lim_{k\rightarrow\infty} C^k = P_2$, kjer je $P_2$ spektralni projektor za lastno vrednost $\lambda_2$. Ker je matrika $C$ dimenzije 2 in ima dve različni lastni vrednosti, je $C$ diagonalizabilna, torej lahko $P_2$ izračunamo s pomočjo formule za spektralne projektorje diagonalizabilnih matrik \eqref{spektralniProjektorjiDiag}. Izkaže se, da je $P_2 = C$.
+        Lastni vrednosti $C$ sta $\lambda_1 = 0$ in $\lambda_2 = 1$. Ker je $\lambda_2 = 1$ radialno dominantna lastna vrednost, je $\lim_{k\rightarrow\infty} C^k = P_2$, kjer je $P_2$ spektralni projektor za lastno vrednost $\lambda_2$. Ker je matrika $C$ dimenzije $2$ in ima dve različni lastni vrednosti, je $C$ diagonalizabilna, torej lahko $P_2$ izračunamo s pomočjo formule za spektralne projektorje diagonalizabilnih matrik \eqref{spektralniProjektorjiDiag}. Izkaže se, da je $P_2 = C$.
         \item Naj bo
         \begin{equation*}
             D =
@@ -1085,7 +1086,7 @@ Poglejmo si uporabo izreka na nekaj zgledih.
             &= -(\lambda - 1)(\lambda^2+\lambda+1) = \\
             &= -(\lambda - 1)(\lambda + \frac{1}{2} - i\frac{\sqrt{3}}{2})(\lambda + \frac{1}{2} + i\frac{\sqrt{3}}{2}),
         \end{align*}
-        torej ima $D$ lastne vrednosti \[\lambda_1=1,\ \lambda_2 = - \frac{1}{2} + i\frac{\sqrt{3}}{2},\ \lambda_3 = - \frac{1}{2} - i\frac{\sqrt{3}}{2}.\] Absolutne vrednosti vseh lastnih vrednosti so 1, zato je $r(D) = 1$, velja pa še $\sigma(D) \subseteq \Gamma_3$. Po točki (3) iz izreka sledi, da je zaporedje $(D^k)_{k\in\N}$ periodično s periodo 3. Členi zaporedja so:
+        torej ima $D$ lastne vrednosti \[\lambda_1=1,\ \lambda_2 = - \frac{1}{2} + i\frac{\sqrt{3}}{2},\ \lambda_3 = - \frac{1}{2} - i\frac{\sqrt{3}}{2}.\] Absolutne vrednosti vseh lastnih vrednosti so 1, zato je $r(D) = 1$, velja pa še $\sigma(D) \subseteq \Gamma_3$. Po točki (3) iz izreka sledi, da je zaporedje $(D^k)_{k\in\N}$ periodično s periodo $3$. Členi zaporedja so:
         \begin{equation*}
             D^1 =
             \begin{bmatrix}
@@ -1101,11 +1102,269 @@ Poglejmo si uporabo izreka na nekaj zgledih.
             \end{bmatrix},
             D^3 = I, D^4 = D^1, \ldots
         \end{equation*}
-        To zaporedje je očitno tudi omejeno, saj zavzame le 3 vrednosti.
+        To zaporedje je očitno tudi omejeno, saj zavzame le $3$ vrednosti.
     \end{enumerate}
 \end{zgled}
 
+\subsection{Ces\`arova konvergenca}
+V tem podpoglavju bomo povedali nekaj več o Ces\`arovi konvergenci, ki smo jo definirali v definiciji \ref{definicijaAsimptotika} na strani \pageref{definicijaAsimptotika}.
+
+Dokaz naslednje leme bomo izpustili, bralec ga lahko najde v \cite{kramar} na strani 39.
+\begin{lema}[Kronecker]
+    Naj bodo $\lambda_1, \ldots, \lambda_r \in \Gamma$, kjer je $\Gamma$ enotska kompleksna krožnica. Tedaj obstaja zaporedje $(s_k)_{k\in\N} \subset \N$, da velja:
+    \begin{equation*}
+        \lim_{k \rightarrow \infty} \lambda_i^{s_k} = 1
+    \end{equation*}
+    za vse $i = 1, \ldots, r$.
+\end{lema}
+Iz Kroneckerjeve leme sledi naslednja trditev, ki pove nekaj o konvergenci podzaporedja zaporedja $(A^k)_{k\in\N}$.
+\begin{izrek}\label{izrek310}
+    Naj bo $A \in \R^{n \times n}$. Tedaj sta naslednji trditvi ekvivalentni:
+    \begin{enumerate}
+        \item Obstaja konvergentno podzaporedje zaporedja $(A^k)_{k\in\N}$, ki konvergira k limiti $P \neq 0$.
+        \item $r(A) = 1$ in vse lastne vrednosti, za katere velja $|\lambda| = 1$, imajo večkratnost $1$.
+    \end{enumerate}
+    V tem primeru je limita oblike
+    \begin{equation*}
+        P = \sum_{|\lambda_i| = 1} P_i,
+    \end{equation*}
+    kjer so $P_i$ spektralni projektorji, ki pripadajo lastnim vrednostim $\lambda_i$, za katere velja $|\lambda_i| = 1$.
+\end{izrek}
+\begin{dokaz}
+    $(1) \Rightarrow (2)$: Naj obstaja podzaporedje zaporedja $(A^k)_{k\in\N}$, ki konvergira k limiti $P \neq 0$. Označimo z $I$ indeksno množico tega zaporedja. Implikacija sledi iz točki (2) v izreku \ref{izrekAsimptotika}.
+
+    \noindent $(2) \Rightarrow (1)$: Ker je $r(A) = 1$ in imajo vse lastne vrednosti, ki ležijo na kompleksni enotski krožnici, večkratnost 1, po točki $(2)$ iz izreka \ref{izrekAsimptotika} sledi, da je zaporedje $(A^k)_{k\in\N}$ omejeno. Iz analize vemo, da ima vsako omejeno zaporedje neko podzaporedje, ki je konvergentno.
+
+    Dokazati moramo še, da je limita podzaporedja enaka $P = \sum_{|\lambda_i| = 1} P_i$. Naj bodo $\lambda_1, \ldots, \lambda_r$ lastne vrednosti, za katere velja $|\lambda_i| = 1$ za vsak $i=1,\ldots,r$. Iz Kroneckerjeve leme sledi, da obstaja zaporedje $(s_k)_{k\in\N} \subset \N$, da velja
+    \begin{equation*}
+        \lim_{k \rightarrow \infty} \lambda_i^{s_k} = 1,\quad i=1,\ldots, r.
+    \end{equation*}
+    Za podzaporedje $(A^{s_k})_{k\in\N}$ uporabimo formulo \eqref{formulaMatricnePotence} in upoštevamo, da imajo lastne vrednosti $\lambda_i$ večkratnost 1:
+    \begin{equation*}
+        \lim_{k \rightarrow \infty} A^{s_k} = \sum_{i=1}^r \lambda_i^{s_k} P_i = \sum_{i=1}^r P_i.
+    \end{equation*}
+    S tem smo dokazali ustrezno obliko limite.
+\end{dokaz}
+Definirajmo izraz za zaporedje, za katerega veljajo lastnosti iz prejšnjega izreka.
+\begin{definicija}
+    Matriko $A \in \R^{n \times n}$ imenujemo \emph{spektralna skrčitev}, če ustreza lastnostim iz izreka \ref{izrek310}.
+\end{definicija}
+\begin{zgled}
+    Primer spektralne skrčitve je matrika
+    \begin{equation*}
+        D =
+        \begin{bmatrix}
+            0 & 1 & 0 \\
+            0 & 0 & 1 \\
+            1 & 0 & 0
+        \end{bmatrix},
+    \end{equation*}
+    za katero smo v zgledu \ref{zgledAsimptotika} izračunali, da ima $3$ različne lastne vrednosti na kompleksni enotski krožnici: \[\lambda_1=1,\ \lambda_2 = - \frac{1}{2} + i\frac{\sqrt{3}}{2},\ \lambda_3 = - \frac{1}{2} - i\frac{\sqrt{3}}{2}. \qedhere\]
+\end{zgled}
+Sedaj si poglejmo še Ces\`arovo konvergenco, torej ugotavljali bomo konvergenco zaporedja s členi $A^{(k)} = \frac{1}{k} \sum_{\nu=0}^{k-1} T^\nu$. Videli bomo, da je zaporedje $(A^k)_{k\in\N}$ Ces\`arovo konvergentno natanko tedaj, ko je omejeno (torej ko velja $r(A) < 1$ ali pa je $A$ spektralna skrčitev).
+
+\begin{izrek}\label{izrekCesaro}
+    Naj bo $A \in \R^{n \times n}$. Naslednje izjave so ekvivalentne:
+    \begin{enumerate}
+        \item $(A^k)_{k\in\N}$ je Ces\`arovo konvergentno.
+        \item $\lim_{k\rightarrow \infty} (k^{-1}A^k) = 0$.
+        \item $(A^k)_{k\in\N}$ je omejeno.
+        \item $r(A)$ in imajo vse lastne vrednosti $\lambda$, za katere velja $|\lambda| = 1$, večkratnost $1$.
+    \end{enumerate}
+    Če je zaporedje $(A^k)_{k\in\N}$ Ces\`arovo konvergentno, tj.\ velja katerikoli od zgornjih pogojev, potem zaporedje $(A^{(k)})_{k\in\N}$ konvergera proti $0$, če $1 \notin \sigma(A)$, oziroma proti spektralni projekciji $P_1$, ki pripada lastni vrednosti $1\in\sigma(A)$.
+\end{izrek}
+\begin{dokaz}
+    Implikacija $(1) \Rightarrow (2)$ sledi, ker lahko zapišemo
+    \begin{equation*}
+        A^k = k A^{(k)} - (k-1) A^{(k-1)}.
+    \end{equation*}
+
+    \noindent $(2) \Rightarrow (3)$: Predpostavimo, da velja $\lim_{k\rightarrow \infty} (k^{-1}A^k) = 0$. Recimo, da zaporedje $(A^k)_{k\in\N}$ ni omejeno. Ker ekponentna fukncija divergira hitreje, kot potenčna konvergera, limita $\lim_{k\rightarrow \infty} (k^{-1}A^k)$ ne obstaja. Prišli smo do protislovja.
+    
+    \noindent $(3) \Rightarrow (4)$: Sledi direktno iz točke (2) v izreku \refeq{izrekAsimptotika}.
+    
+    \noindent $(4) \Rightarrow (1)$: Poglejmo si koordinatno zaporedje zaporedja $(A^{(k)})_{k\in\N}$ glede na bazo $\mathbb{B}_T$, tj. zaporedje Ces\`arovih povprečij zaporedja $(A^k)_{k\in\N}$:
+    \begin{equation*}
+        z_{\lambda, \nu}^{(k)} := \frac{1}{k} \sum_{l=0}^{k-1} z_{\lambda, \nu} (l) = \frac{1}{k} \sum_{l=0}^{k-1}{l \choose \nu} \lambda^{l - \nu}.
+    \end{equation*}
+    To zaporedje očitno divergira, če $|\lambda| > 1$ in konvergira, če $|\lambda| < 1$. Za $|\lambda| = 1$ pa je to zaporedje omejeno le, če je $\nu = 0$, torej kadar ima $\lambda$ večkratnost $0$.
+
+    \noindent Pokazati moramo še, kam konvergera zaporedje $(A^{(k)})_{k\in\N}$ v odvisnosti od spektralnega razcepa. Če $\lambda \neq 1$, potem je
+    \begin{equation*}
+        z_{\lambda, 0}^{(k)} = \frac{1}{k} \sum_{l=0}^{k-1}{l \choose 0} \lambda^{l} = \frac{1}{k}\frac{\lambda^k-1}{\lambda-1}.
+    \end{equation*}
+    To zaporedje torej konvergera proti $0$, ko $k\rightarrow\infty$, če $|\lambda|\leq 1$, $\lambda \neq 1$. Če pa je $\lambda = 1$, potem je $z_{1, 0}^{(k)} = 1$ za vsak $k \in \N$, zato v tem primeru zaporedje $(A^{(k)})_{k\in\N}$ konvergera proti $P_1$, ko gre $k\rightarrow\infty$.
+
+\end{dokaz}
+Poglejmo si zgled matrike, katere zaporedje je Ces\`arovo konvergentno.
+\begin{zgled}
+    V zgledu \ref{zgledAsimptotika} smo srečali matriko
+    \begin{equation*}
+        D =
+        \begin{bmatrix}
+            0 & 1 & 0 \\
+            0 & 0 & 1 \\
+            1 & 0 & 0
+        \end{bmatrix},
+    \end{equation*}
+    ki je imela $3$ različne lastne vrednosti na kompleksni enotski krožnici, ki so imele večkratnost $1$. Po izreku \ref{izrekCesaro} sledi, da je zaporedje $(D^k)_{k\in\N}$ Ces\`arovo konvergentno.
+    
+    Ugotovili smo že, da je zaporedje periodično s periodo 3, torej zagotovo ni konvergentno. Poglejmo pa si zaporedje
+    \begin{equation*}
+        D_k^\ast = \Big(\frac{1}{k} \sum_{l=0}^{k-1} D^l\Big)_{k\in\N}
+    \end{equation*}
+    in poskusimo izračunati limito tega zaporedja. S tem bomo Ces\`arovo konvergenco dokazali po definiciji. Oglejmo si nekaj začetnih členov zgornjega zaporedja:
+    \begin{align*}
+        &D_1^\ast = I,
+        &D_2^\ast = \frac{1}{2}
+        \begin{bmatrix}
+            1 & 1 & 0 \\
+            0 & 1 & 1 \\
+            1 & 0 & 1
+        \end{bmatrix},\quad\quad
+        &D_3^\ast = \frac{1}{3}
+        \begin{bmatrix}
+            1 & 1 & 1 \\
+            1 & 1 & 1 \\
+            1 & 1 & 1
+        \end{bmatrix},\\
+        &D_4^\ast = \frac{1}{4}
+        \begin{bmatrix}
+            2 & 1 & 1 \\
+            1 & 2 & 1 \\
+            1 & 1 & 2
+        \end{bmatrix},
+        &D_5^\ast = \frac{1}{5}
+        \begin{bmatrix}
+            2 & 2 & 1 \\
+            1 & 2 & 2 \\
+            2 & 1 & 2
+        \end{bmatrix},\quad\quad
+        &D_6^\ast = \frac{1}{6}
+        \begin{bmatrix}
+            2 & 2 & 2 \\
+            2 & 2 & 2 \\
+            2 & 2 & 2
+        \end{bmatrix} = D_3^\ast.
+    \end{align*}
+    Po numeričnih oz.\ analitičnih izračunih ugotovimo, da je
+    \begin{equation*}
+        \lim_{k\rightarrow\infty} D_k^\ast =
+        \frac{1}{3}
+        \begin{bmatrix}
+            1 & 1 & 1 \\
+            1 & 1 & 1 \\
+            1 & 1 & 1
+        \end{bmatrix},
+    \end{equation*}
+    torej limita zaporedja $(D_k^\ast)_{k\in\N}$ obstaja, zato je zaporedje $(D^k)_{k\in\N}$ Ces\`arovo konvergentno.
+\end{zgled}
+
 \section{Primer uporabe}
+Pogledali si bomo primer uporabe matričnih potenc na markovskih verigah. Prvi del poglavja bomo namenili aplikaciji teorije na markovskih verigah, nato pa si bomo pogledali še zgled markovske verige.
+
+Najprej navedimo definicijo pojma \emph{stohastičnost}.
+\begin{definicija}
+    \emph{Stohastična matrika} je kvadratna matrika $A = [a_{ij}]_{1 \leq i,j \leq n}$, če za njene člene velja $0 \leq a_{ij} \leq 1$ za vsaka $i,j = 1,\ldots, n$ in je $\sum_{j=1}^n a_{ij} = 1$ za vsak $i = 1,\dots,n$ (tj.\ vsota vseh elementov v isti vrstici je enaka 1).
+
+    Podobno definiramo \emph{stohastični vektor} $v = (v_1, \dots, v_n)^T$, za katerega velja, da je $0 \leq v_i \leq 1$ za vsak $i = 1,\ldots, n$ in velja $\sum_{i=1}^n v_i = 1$ (tj.\ vsota komponent je enaka 1).
+
+    V posebnem primeru, ko so vse komponente matrike oz.\ vektorja strogo večje od 0, matriki oz.\ vektorju pravimo \emph{pozitivna stohastična matrika} oz.\ \emph{pozitivni stohastični vektor}.
+\end{definicija}
+
+\begin{opomba}
+    \leavevmode
+    \begin{enumerate}
+        \item Ponekod v literaturi, ki opisuje markovske verige, vektorje pišejo v vrstici. Tedaj je stohastična matrika tista matrika, za katero velja, da je vsota elementov v stolpcih (in ne v vrsticah) enaka $1$. V tem primeru vektorje z matriko preslikamo tako, da matriko množimo iz desne.
+        \item Za stohastične matrike velja, da vektor $(1, 1, \ldots, 1)^T$ preslikajo v \[(1, 1, \ldots, 1)^T\].
+    \end{enumerate}
+\end{opomba}
+
+Naj bo $P = [p_{ij}]_{1 \leq i,j \leq n} \in \R^{n \times n}$ pozitivna stohastična prehodna matrika (diskretne) markovske verige z množico stanj $S = \{s_1, \ldots, s_n\}$. Pozitivno stohastičnemu vektorju $p(k) = \left(p_1(k), p_2(k), \ldots, p_n(k)\right)^T$, kjer je $p_i(k)$ verjetnost, da je markovski proces v stanju $s_i$ po $k$-tem koraku, imenujemo \emph{porazdelitveni vektor na $k$-tem koraku}\textbf{Preveri, kako se temu reče v slovenščini, obstaja poseben izraz}. Iz markovske lastnosti sledi, da lahko vektor $p(k)$ na $k$-tem koraku dobimo s pomočjo porazdelitvenega vektorja na začetku markovske verige in prehodne matrike s formulo
+\begin{equation}\label{eqKtiKorakMarkov}
+    p(k) = (P^k)^T p(0) 
+\end{equation}
+Vidimo, da je limitni porazdelitveni vektor $\lim_{k\rightarrow\infty} p(k)$ odvisen od lastnosti zaporedja $(P^k)_{k\in\N}$. Z znanjem, ki ga imamo iz prejšnjih poglavij, lahko obnašanje konvergence predstavimo s spektralnimi lastnostmi matrike $P$. Poglejmo si nekaj spektralnih lastnosti pozitivno stohastičnih matrik.
+\begin{trditev}
+    Za prehodno matriko $P$ velja:
+    \begin{enumerate}
+        \item $r(P) = 1$ je lastna vrednost matrike $P$ s pripadajočim lastnim vektorjem
+        \begin{equation*}
+            \mathds{1} = (1, 1, \ldots, 1)^T.
+        \end{equation*}
+        \item Vse lastne vrednosti $\lambda$ matrike $P$ na kompleksni enotski krožnici ($|\lambda|=1$) imajo večkratnost $1$.
+    \end{enumerate}
+\end{trditev}
+\begin{dokaz}
+    \leavevmode
+    \begin{enumerate}
+        \item Ker je $P$ stohastična, po definiciji sledi, da je $P^k \mathds{1} = \mathds{1}$ za vse $k \in \N$. Po Gelfandovi formuli sledi, da je $r(P) = 1$ in da je $1$ lastna vrednost s pripadajočim lastnim vektorjem $\mathds{1}$.
+        \item Ker je $\norm{P^k}_\infty = 1$ za vse $k \in \N$, je zaporedje $(P^k)_{k\in\N}$ omejeno. Iz točke (4) iz izreka \ref{izrekCesaro} sledi, da imajo vse lastne vrednosti na enotski krožnici večkratnost $1$.
+    \end{enumerate}
+\end{dokaz}
+Iz izreka \ref{izrekCesaro} in dejstva, da je zaporedje $(P^k)_{k\in\N}$ omejeno, sledi, da je zaporedje $(P^k)_{k\in\N}$ Ces\`arovo konvergentno. Iz istega izreka sledi, da zaporedje Ces\`arovih povprečij $\Big(\frac{1}{k} \sum_{l=0}^{k-1} P^l\Big)_{k\in\N}$ konvergera k spektralnemu projektorju $P$, ki pripada lastni vrednosti $1$ matrike $P$. Medtem zaporedje $(P^k)_{k\in\N}$ ne konvergera, razen če je $1$ radialno dominantna lastna vrednost matrike $P$ (izrek \ref{izrekAsimptotika}, trditev (4)).
+
+Poglejmo si, kako si lahko predstavljamo Cesarova povprečja v markovskih verigah. Fiksiramo stanje $s_j$ in definirajmo zaporedje slučajnih spremenljivk $(X_i)_{k\in\N_0}$ s členi
+\begin{equation*}
+    X_i =
+    \begin{cases}
+        1, \quad \text{če je na $i$-tem koraku veriga v stanju $s_j$}, \\
+        0, \quad \text{sicer}.
+    \end{cases}
+\end{equation*}
+Potem izraz $\frac{1}{k} \sum_{i=0}^{k-1} X_i$ predstavlja delež časa, ko je veriga v stanju $s_j$, po $k-1$ korakih. Ker je pričakovana vrednost slučajne spremenljivke $X_i$ enaka $E(X_i) = p(i)$, iz linearnosti pričakovane vrednosti velja
+\begin{equation*}
+    E\Big(\frac{1}{k} \sum_{i=0}^{k-1} X_i\Big) = \frac{1}{k} \sum_{i=0}^{k-1} E(X_i) = \frac{1}{k} \sum_{i=0}^{k-1} \left(p(i)\right)_j.
+\end{equation*}
+To pomeni, da $j$-ta komponenta limite Cesarovih povprečij predstavlja delež časa, ko je veriga v stanju $s_j$, po zelo dolgem času.
+
+\subsection{Primer markovske verige}
+Za konec pa predstavimo še realni problem markovske verige. Podjetje ima tovarne v petih mestih, naj bodo to mesta $A, B, C, D, E$. Nadzornik proizvodnje mora na vsake toliko časa priti v mesto $A, B, C, D, E$ na nadzor proizvodnje. Katero bo naslednje mesto, nadzornik izbere naključno, ampak letalske poti ne povezujejo vseh mest med sabo. Kako so z dvosmernimi letalskimi potmi povezana mesta, prikazuje naslednji graf.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{grafUndir.jpg}
+    \caption{Dvosmerne letalske povezave med mesti $A,B,C,D,E$.}
+\end{figure}
+Kolikšen delež svojega časa nadzornik preživi v mestih $A,B,C,D,E$ po dolgem času?
+
+Seveda smo že tekom opisa problema zaslutili, da gre za problem iz podpoglavja \ref{podpoglavjeMarkovskeVerige}, ki pa si ga bomo sedaj nekoliko bolj podrobno pogledali. Že v omenjenem podpoglavju smo neusmerjenemu grafu priredili usmerjenega, ki odraža verjetnosti izbire mesta naslednjega postanka.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{grafDir.jpg}
+    \caption{Usmerjeni graf, ki prikazuje verjetnosti, da bo nadzornik izbral določeno mesto kot naslednji postanek.}
+    \label{grafUsmerjeni}
+\end{figure}
+Problem lahko interpetiramo kot markovsko verigo z množico stanj \[S = \{A, B, C, D, E\}\] in prehodno matriko
+\begin{equation*}
+    P =
+    \kbordermatrix{
+            & A & B & C & D & E \\
+        A & 0 & 1/3 & 1/3 & 1/3 & 0 \\
+        B & 1/2 & 0 & 1/2 & 0 & 0 \\
+        C & 1/4 & 1/4 & 0 & 1/4 & 1/4 \\
+        D & 1/2 & 0 & 1/2 & 0 & 0 \\
+        E & 0 & 0 & 1 & 0 & 0
+    },
+\end{equation*}
+ki je hkrati tudi matrika sosednosti usmerjenega grafa na sliki \ref{grafUsmerjeni}. Z nekoliko truda bi za to matriko izračunali lastne vrednosti
+\begin{align*}
+    &\lambda_1 = 1 \\
+    &\lambda_2 = -\frac{1}{2} \\
+    &\lambda_3 = 0 \\
+    &\lambda_4 = \frac{1}{12} (-3+\sqrt{33}) \\
+    &\lambda_5 = \frac{1}{12} (-3-\sqrt{33})
+\end{align*}
+Vse lastne vrednosti razen $\lambda_1$ so po absolutni vrednosti strogo manjši od $1$, torej po izreku \ref{izrekAsimptotika} sledi, da je zaporedje $(P^k)_{k\in\N}$ konvergentno. Iz tega sledi, da je konvergentno tudi zaporedje Ces\`arovih poprečij $\Big(\frac{1}{k} \sum_{l=0}^{k-1} P^l\Big)_{k\in\N}$.
+
+Recimo, da je nadzornik na začetku v mestu $A$. Porazdelitveni vektor na $0$-tem koraku bo torej enak $p(0) = (1, 0, 0, 0, 0)^T$. Po formuli \eqref{eqKtiKorakMarkov} lahko izračunamo porazdelitveni vektor na $k$-tem koraku
+\begin{equation*}
+    p(k) = \left(P^k\right)^T p(0)
+\end{equation*}
+za vsak $k\in\N$.
+\textbf{Tukaj bi potreboval nekoliko pomoči. Kaj točno gledamo, ko se vprašamo, koliko časa nadzornik preživi v nekem mestu? Cesarova povprečja? Ampak to je matrika. NAVADNO POVPREČJE - SEŠTEJEŠ VEKTORJE IN DELIŠ S k.}
+
+\textbf{Vključi ali premisli, če bi zgornji zgled zamenjal s shell game ali pa ta zgled malo prilagodim. Ali pa dodam, kaj bi se zgodilo, če kakšna povezava (C-E) ne bi bila dvosmerna.}
+
 
 \section*{Slovar strokovnih izrazov}
 
@@ -1121,9 +1380,11 @@ Poglejmo si uporabo izreka na nekaj zgledih.
 
 \bibitem{kosir} T.~Košir, \emph{Lastne vrednosti in lastni vektorji (8. poglavje iz predavanj)}, [ogled 17.~3.~2021], dostopno na \url{https://www.fmf.uni-lj.si/~kosir/poucevanje/skripta/lastne.pdf}.
 
-\bibitem{lavric} B.~Lavrič, \emph{Algebra 1 (kratek pregled rezultatov in definicij)}, [ogled 17.~3.~2021], dostopno na \url{https://www.fmf.uni-lj.si/~lavric/algebra%201%20-%20pregled.pdf}.
+\bibitem{lavric} B.~Lavrič, \emph{Algebra $1$ (kratek pregled rezultatov in definicij)}, [ogled 17.~3.~2021], dostopno na \url{https://www.fmf.uni-lj.si/~lavric/algebra%201%20-%20pregled.pdf}.
 
 \bibitem{meyer} C.~Meyer, \emph{Matrix Analysis and Applied Linear Algebra}, SIAM, 2000.
+
+\bibitem{youtube za primer}
 
 
 \end{thebibliography}
