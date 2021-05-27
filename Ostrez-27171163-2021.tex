@@ -13,10 +13,10 @@
 
 %  V povzetku na kratko opišite vsebinske rezultate dela. Sem ne sodi razlaga organizacije dela --
 %  v katerem poglavju/razdelku je kaj, pač pa le opis vsebine.
-\povzetek{V par stavkih poveš, kaj je bistvo te naloge (ne rezultatov, ampak s čem se ukvarja ta naloga)}
+\povzetek{V delu diplomskega seminarja bomo obravnavali matrične potence in zaporedja matričnih potenc. Sprva bomo navedli motivacijska zgleda in naredili pregled pojmov iz linearne algebre, potrebnih za razumevanje besedila. Nato si bomo pogledali matrične polinome in funkcije ter navedli nekaj osnovnih pojmov iz spektralne teorije. V osrednjem delu si bomo ogledali koordinatna zaporedja, asimptotsko obnašanje matričnih zaporedij in Ces\`arovo konvergenco. Na koncu bomo znanje, pridobljeno tekom diplomskega dela, uporabili za analizo markovskih verig.}
 
 %  Prevod slovenskega povzetka v angleščino.
-\abstract{}
+\abstract{In the thesis we will discuss matrix powers and sequences of matrix powers. We will first give motivational examples and make an overview of the concepts from linear algebra needed to understand the text. We will then look at matrix polynomials and functions and list some basic concepts from spectral theory. In the central part, we will look at coordinate sequences, asymptotic behavior of matrix sequences, and Ces\`aro summability. Finally, the knowledge gained during the thesis will be used to analyze Markov chains.}
 
 % navedite vsaj eno klasifikacijsko oznako --
 % dostopne so na www.ams.org/mathscinet/msc/msc2020.html
@@ -314,7 +314,7 @@ Poglejmo si zgled markovske verige, ki bo hkrati tudi motiviral računanje limit
             0,25 & 0,17 & 0,33 & 0,17 & 0,08 
         \end{bmatrix}.
     \end{equation*}
-    Ta limita nam pove delež obiskov za vsako vozlišče (če bi zelo dolgo potovali). Limita je tudi neodvisna od izbire začetnega vozlišča, če je le graf povezan \cite[Theorem 5.1]{markov}.
+    Ta limita nam pove delež obiskov za vsako vozlišče (če bi zelo dolgo potovali). Limita je tudi neodvisna od izbire začetnega vozlišča, če je le graf krepko povezan \cite[Theorem 5.1]{markov}.
 \end{zgled}
 
 \subsection{Ponovitev iz linearne algebre}\label{linearnaAlgebra}
@@ -1280,9 +1280,9 @@ Najprej navedimo definicijo pojma \emph{stohastičnost}.
     \end{enumerate}
 \end{opomba}
 
-Naj bo $P = [p_{ij}]_{1 \leq i,j \leq n} \in \R^{n \times n}$ pozitivna stohastična prehodna matrika (diskretne) markovske verige z množico stanj $S = \{s_1, \ldots, s_n\}$. Pozitivno stohastičnemu vektorju $p(k) = \left(p_1(k), p_2(k), \ldots, p_n(k)\right)^T$, kjer je $p_i(k)$ verjetnost, da je markovski proces v stanju $s_i$ po $k$-tem koraku, imenujemo \emph{porazdelitveni vektor na $k$-tem koraku}\textbf{Preveri, kako se temu reče v slovenščini, obstaja poseben izraz}. Iz markovske lastnosti sledi, da lahko vektor $p(k)$ na $k$-tem koraku dobimo s pomočjo porazdelitvenega vektorja na začetku markovske verige in prehodne matrike s formulo
+Naj bo $P = [p_{ij}]_{1 \leq i,j \leq n} \in \R^{n \times n}$ pozitivna stohastična prehodna matrika (diskretne) markovske verige z množico stanj $S = \{s_1, \ldots, s_n\}$. Pozitivno stohastičnemu vektorju $p(k) = \left(p_1(k), p_2(k), \ldots, p_n(k)\right)^T$, kjer je $p_i(k)$ verjetnost, da je markovski proces v stanju $s_i$ po $k$-tem koraku, imenujemo \emph{porazdelitev verjetnosti na $k$-tem koraku}. Iz markovske lastnosti, tj. $p(k) = P^T p(k-1)$, sledi, da lahko vektor $p(k)$ na $k$-tem koraku dobimo s pomočjo porazdelitvenega vektorja na začetku markovske verige in prehodne matrike s formulo
 \begin{equation}\label{eqKtiKorakMarkov}
-    p(k) = (P^k)^T p(0) 
+    p(k) = (P^k)^T p(0).
 \end{equation}
 Vidimo, da je limitni porazdelitveni vektor $\lim_{k\rightarrow\infty} p(k)$ odvisen od lastnosti zaporedja $(P^k)_{k\in\N}$. Z znanjem, ki ga imamo iz prejšnjih poglavij, lahko obnašanje konvergence predstavimo s spektralnimi lastnostmi matrike $P$. Poglejmo si nekaj spektralnih lastnosti pozitivno stohastičnih matrik.
 \begin{trditev}
@@ -1325,7 +1325,7 @@ Za konec pa predstavimo še realni problem markovske verige. Podjetje ima tovarn
     \includegraphics[width=0.8\textwidth]{grafUndir.jpg}
     \caption{Dvosmerne letalske povezave med mesti $A,B,C,D,E$.}
 \end{figure}
-Kolikšen delež svojega časa nadzornik preživi v mestih $A,B,C,D,E$ po dolgem času?
+Če je nadzornik na začetku v mestu $A$, kakšne so verjetnosti, da se v $k$-tem koraku nahaja v mestu $A,B,C,D,E$? Kolikšen delež svojega časa nadzornik preživi v mestih $A,B,C,D,E$ po dolgem času?
 
 Seveda smo že tekom opisa problema zaslutili, da gre za problem iz podpoglavja \ref{podpoglavjeMarkovskeVerige}, ki pa si ga bomo sedaj nekoliko bolj podrobno pogledali. Že v omenjenem podpoglavju smo neusmerjenemu grafu priredili usmerjenega, ki odraža verjetnosti izbire mesta naslednjega postanka.
 \begin{figure}[H]
@@ -1348,23 +1348,49 @@ Problem lahko interpetiramo kot markovsko verigo z množico stanj \[S = \{A, B, 
 \end{equation*}
 ki je hkrati tudi matrika sosednosti usmerjenega grafa na sliki \ref{grafUsmerjeni}. Z nekoliko truda bi za to matriko izračunali lastne vrednosti
 \begin{align*}
-    &\lambda_1 = 1 \\
-    &\lambda_2 = -\frac{1}{2} \\
-    &\lambda_3 = 0 \\
-    &\lambda_4 = \frac{1}{12} (-3+\sqrt{33}) \\
-    &\lambda_5 = \frac{1}{12} (-3-\sqrt{33})
+    &\lambda_1 = 1, \\
+    &\lambda_2 = -\frac{1}{2}, \\
+    &\lambda_3 = 0, \\
+    &\lambda_4 = \frac{1}{12} (-3+\sqrt{33}), \\
+    &\lambda_5 = \frac{1}{12} (-3-\sqrt{33}).
 \end{align*}
-Vse lastne vrednosti razen $\lambda_1$ so po absolutni vrednosti strogo manjši od $1$, torej po izreku \ref{izrekAsimptotika} sledi, da je zaporedje $(P^k)_{k\in\N}$ konvergentno. Iz tega sledi, da je konvergentno tudi zaporedje Ces\`arovih poprečij $\Big(\frac{1}{k} \sum_{l=0}^{k-1} P^l\Big)_{k\in\N}$.
+Vse lastne vrednosti razen $\lambda_1$ so po absolutni vrednosti strogo manjši od $1$, torej po izreku \ref{izrekAsimptotika} sledi, da je zaporedje $(P^k)_{k\in\N}$ konvergentno z limito $P_1$, torej spektralnim projektorjem za lastno vrednost $\lambda_1$. % Iz tega sledi, da je konvergentno tudi zaporedje Ces\`arovih poprečij $\Big(\frac{1}{k} \sum_{l=0}^{k-1} P^l\Big)_{k\in\N}$.
 
-Recimo, da je nadzornik na začetku v mestu $A$. Porazdelitveni vektor na $0$-tem koraku bo torej enak $p(0) = (1, 0, 0, 0, 0)^T$. Po formuli \eqref{eqKtiKorakMarkov} lahko izračunamo porazdelitveni vektor na $k$-tem koraku
+Recimo, da je nadzornik na začetku v mestu $A$. Porazdelitev verjetnosti stanj na $0$-tem koraku bo torej enak $p(0) = (1, 0, 0, 0, 0)^T$. Po formuli \eqref{eqKtiKorakMarkov} lahko izračunamo porazdelitev verjetnosti stanj na $k$-tem koraku
 \begin{equation*}
     p(k) = \left(P^k\right)^T p(0)
 \end{equation*}
 za vsak $k\in\N$.
-\textbf{Tukaj bi potreboval nekoliko pomoči. Kaj točno gledamo, ko se vprašamo, koliko časa nadzornik preživi v nekem mestu? Cesarova povprečja? Ampak to je matrika. NAVADNO POVPREČJE - SEŠTEJEŠ VEKTORJE IN DELIŠ S k.}
 
-\textbf{Vključi ali premisli, če bi zgornji zgled zamenjal s shell game ali pa ta zgled malo prilagodim. Ali pa dodam, kaj bi se zgodilo, če kakšna povezava (C-E) ne bi bila dvosmerna.}
-
+Zanima nas še, kakšna je porazdelitev verjetnosti stanj po zelo dolgem času, tj. $p(k)$, ko $k\rightarrow\infty$. Vemo, da je
+\begin{equation*}
+    \lim_{k\rightarrow\infty} P^k = P_1,
+\end{equation*}
+kjer je $P_1$ spektralni projektor za lastno vrednost $\lambda_1 = 1$. Ker ima matrika $P \in \R^{5 \times 5}$ $5$ različnih lastnih vrednosti, lahko $P_1$ izračunamo po formuli \eqref{spektralniProjektorjiDiag} in dobimo
+\begin{equation*}
+    P_1 = \frac{1}{2}
+    \begin{bmatrix}
+        1/2 & 1/3 & 2/3 & 1/3 & 1/6 \\
+        1/2 & 1/3 & 2/3 & 1/3 & 1/6 \\
+        1/2 & 1/3 & 2/3 & 1/3 & 1/6 \\
+        1/2 & 1/3 & 2/3 & 1/3 & 1/6 \\
+        1/2 & 1/3 & 2/3 & 1/3 & 1/6
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        1/4 & 1/6 & 1/3 & 1/6 & 1/12 \\
+        1/4 & 1/6 & 1/3 & 1/6 & 1/12 \\
+        1/4 & 1/6 & 1/3 & 1/6 & 1/12 \\
+        1/4 & 1/6 & 1/3 & 1/6 & 1/12 \\
+        1/4 & 1/6 & 1/3 & 1/6 & 1/12
+    \end{bmatrix}.
+\end{equation*}
+Sedaj lahko izračunamo limito $p(k)$, ko gre $k\rightarrow\infty$:
+\begin{align*}
+    p :&=\lim_{k\rightarrow\infty} p(k) = \lim_{k\rightarrow\infty} \left(P^k\right)^T p(0) = P_1^T\  p(0) = \\
+    &= \Big(\frac{1}{4}, \frac{1}{6}, \frac{1}{3}, \frac{1}{6}, \frac{1}{12}\Big)^T.
+\end{align*}
+Prva komponenta vektorja $p$ nam pove, kolikšen delež časa bo nadzornik preživel v mestu $A$. Druga komponenta nam pove, kolikšen delež časa bo nadzornik preživel v mestu $B$. Enako sklepamo za mesta $C, D, E$.
 
 \section*{Slovar strokovnih izrazov}
 
@@ -1384,7 +1410,7 @@ za vsak $k\in\N$.
 
 \bibitem{meyer} C.~Meyer, \emph{Matrix Analysis and Applied Linear Algebra}, SIAM, 2000.
 
-\bibitem{youtube za primer}
+\bibitem{youtube} HarvardX (28.~2.~2020), Introducing Markov Chains [Video], Youtube, [ogled 10.~10.~2020], dostopno na \url{https://www.youtube.com/watch?v=JHwyHIz6a8A}
 
 
 \end{thebibliography}
