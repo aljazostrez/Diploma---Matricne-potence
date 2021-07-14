@@ -247,23 +247,23 @@ Najprej si poglejmo uporabo matričnih potenc na primeru Fibonaccijevega zapored
     S pomočjo matričnih potenc smo iz rekurzivnega predpisa dobili eksplicitno formulo zaporedja.
 \end{zgled}
 
-Zakaj potrebujemo nove metode za računanje matričnih potenc, če jih že znamo računati s pomočjo Jordanove forme? Izkaže se, da je izračun Jordanove forme numerično zahteven, poleg tega pa nam Jordanova forma omogoča potenciranje matrik le v končnih dimenzijah. Velikokrat nam tudi ni potrebno izračunati celotne matrike $A^n$, ampak želimo le poznati nekatere njene lastnosti. Namesto Jordanove forme bomo uporabili spektralni razcep, ki ni odvisen od izbire baze matrike $A$.
+Zakaj potrebujemo nove metode za računanje matričnih potenc, če jih že znamo računati s pomočjo Jordanove forme? Izkaže se, da je izračun Jordanove forme numerično zahteven, poleg tega pa nam Jordanova forma omogoča potenciranje le v končno dimenzionalnih prostorih. Velikokrat nam tudi ni potrebno izračunati celotne matrike $A^n$, ampak želimo le poznati nekatere njene lastnosti. Namesto Jordanove forme bomo uporabili spektralni razcep, ki ni odvisen od izbire baze prostora.
 
 \subsection{Markovske verige}\label{podpoglavjeMarkovskeVerige}
 
 Uporabo matričnih potenc bomo prikazali na primeru markovskih verig. Navedimo definicijo markovske verige.
 \begin{definicija}\label{definicijaMarkov}
-    Naj bo $S$ števna množica, ki jo poimenujemo \emph{množica stanj}. Njene elemente $s \in S$ imenujemo \emph{stanja}. \emph{Slučajni proces} (z diskretnim časom) je vsako zaporedje diskretnih slučajnih spremenljivk $X_0, X_1, \ldots, X_n, \ldots$, katerih zaloga vrednosti leži v $S$. To zaporedje imenujemo \emph{markovska veriga}, če ima markovsko lastnost:
+    Naj bo $S$ števna množica, ki jo poimenujemo \emph{množica stanj}. Njene elemente $s \in S$ imenujemo \emph{stanja}. \emph{Slučajni proces} (z diskretnim časom) je vsako zaporedje diskretnih slučajnih spremenljivk $X_0, X_1, \ldots, X_k, \ldots$, katerih zaloga vrednosti leži v $S$. To zaporedje imenujemo \emph{markovska veriga}, če ima markovsko lastnost:
     \begin{equation*}
-        P\left(X_n = s_n | X_0 = s_0, X_1 = s_1, \ldots, X_{n-1} = s_{n-1}\right) = P\left(X_n = s_n | X_{n-1} = s_{n-1}\right),
+        P\left(X_k = s_k | X_0 = s_0, X_1 = s_1, \ldots, X_{k-1} = s_{k-1}\right) = P\left(X_k = s_k | X_{k-1} = s_{k-1}\right),
     \end{equation*}
-    tj.\ verjetnost stanja na $n$-tem koraku je odvisna le od stanja na $(n-1)$-tem koraku. Vpeljemo še pojma \emph{prehodne verjetnosti na $n$-tem koraku}
+    tj.\ verjetnost stanja na $k$-tem koraku je odvisna le od stanja na $(k-1)$-tem koraku. Vpeljemo še pojma \emph{prehodne verjetnosti} (na $k$-tem koraku)
     \begin{equation*}
-        p_{ij} = P\left(X_n = s_j | X_{n-1} = s_i\right)
+        p_{ij} = P\left(X_k = s_j | X_{k-1} = s_i\right)
     \end{equation*}
-    in \emph{prehodne matrike} $P = [p_{ij}]_{1 \leq i,j \leq n}$.
+    in \emph{prehodne matrike} $P = [p_{ij}]_{1 \leq i,j \leq n}$, kjer je $n$ moč množice $S$. Obravnavamo le \emph{homogene markovske verige}, pri katerih je prehodna verjetnost neodvisna od koraka $k$.
 \end{definicija}
-Poglejmo si zgled markovske verige, ki bo hkrati tudi motiviral računanje limite zaporedja $A_n = A^n$, če ta obstaja. 
+Poglejmo si zgled markovske verige, ki bo hkrati tudi motiviral računanje limite zaporedja $A_k = A^k$, če ta obstaja. 
 \begin{zgled}
     Izberimo si vozlišče v poljubnem neusmerjenem grafu. Izberemo si naključnega soseda izbranega vozlišča in se premaknemo v njega. Postopek ponavljamo. Kolikšen je delež obiskov določenega vozlišča v grafu po dolgem času? Ker soseda izbiramo naključno, začetnemu grafu priredimo utežen usmerjen graf, kjer so uteži verjetnosti, da se premaknemo v povezanega soseda. Tu privzamemo, da so izbire sosedov enako verjetne, za vozlišče stopnje $k$ so vse verjetnosti enake $\frac{1}{k}$.
     \begin{figure}[!htb]
@@ -358,10 +358,10 @@ Spomnimo se, da je minimalni polinom $m_A$ enolično določen z matriko $A$. Pot
             \Delta_A(\lambda) = \det \left(A - \lambda I\right) \in \mathcal{P}_A
         \end{equation*}
         v spremenljivki $\lambda$ imenujemo \emph{karakteristični polinom} matrike $A$.
-        \item \emph{Algebraična večkratnost} lastne vrednosti $\lambda$ je večkratnost $\lambda$ kot ničle polinoma $\Delta_A\left(\lambda\right)$, \emph{geometrična večkratnost} lastne vrednosti $\lambda$ pa večkratnost $\lambda$ kot ničle minimalnega polinoma $m_A\left(\lambda\right)$.
+        \item \emph{Algebraična večkratnost} lastne vrednosti $\lambda$ je večkratnost $\lambda$ kot ničle polinoma $\Delta_A\left(\lambda\right)$. \emph{Geometrična večkratnost} lastne vrednosti $\lambda$ pa je dimenzija pripadajočega lastnega podprostora $\ker \left(A - \lambda I\right)$.
     \end{enumerate}
 \end{definicija}
-Matrika $A - \lambda I$ je \emph{nilpotentna} reda $\nu$, kjer je $\nu$ geometrična večkratnost lastne vrednosti $\lambda$. To pomeni, da velja $\left(A - \lambda I\right)^k = 0$ za $k \geq \nu$.
+Matrika $A - \lambda I$ je \emph{nilpotentna} reda $\nu$, kjer je $\nu$ večkratnost lastne vrednosti $\lambda$ kot ničle minimalnega polinoma. To pomeni, da velja $\left(A - \lambda I\right)^k = 0$ za $k \geq \nu$.
 
 Brez dokaza se spomnimo naslednje trditve, s pomočjo katere med drugim tudi na roke iščemo lastne vrednosti matrike $A$.
 \begin{trditev}
@@ -378,7 +378,7 @@ Iz zgornje trditve sledi, da lahko minimalni polinom $m_A$ matrike $A$ zapišemo
 \begin{equation*}
     m_A(z) = \left(z-\lambda_1\right)^{\nu_1}\left(z-\lambda_2\right)^{\nu_2}\cdots \left(z-\lambda_m\right)^{\nu_m},
 \end{equation*}
-kjer so $\lambda_1, \ldots, \lambda_m$ lastne vrednosti matrike $A$, $\nu_1, \ldots, \nu_m$ pa pripadajoče geometrične večkratnosti.
+kjer so $\lambda_1, \ldots, \lambda_m$ lastne vrednosti matrike $A$, $\nu_1, \ldots, \nu_m$ pa pripadajoče večkratnosti (kot ničle minimalnega polinoma).
 
 V nadaljevanju bomo omenjali tudi \emph{matrične} in \emph{operatorske norme}, zato se spomnimo lastnosti norme.
 \begin{definicija}
@@ -389,11 +389,10 @@ V nadaljevanju bomo omenjali tudi \emph{matrične} in \emph{operatorske norme}, 
         \item $\norm{A + B} \leq \norm{A} + \norm{B}$ (trikotniška neenakost), 
         \item $\norm{A B} \leq \norm{A} \norm{B}$ (submultiplikativnost).
     \end{enumerate}
-    Matrične norme, ki so porojene iz vektorskih norm s predpisom
+    \emph{Operatorske norme} na $\C^{n\times n}$ so matrične norme, ki so porojene iz vektorskih norm s predpisom
     \begin{equation*}
-        \norm{A} = \max_{x \neq 0} \frac{\norm{A x}}{\norm{x}}\quad \text{za}\ x\in \C^n,
+        \norm{A} = \max_{x \neq 0} \frac{\norm{A x}}{\norm{x}}\quad \text{za}\ x\in \C^n.
     \end{equation*}
-    imenujemo \emph{operatorske norme}.
 \end{definicija}
 \begin{zgled}
     Matrične norme, ki so porojene iz vektorskih $p$-norm, imenujemo \emph{$p$-norme}. To so operatorske norme in so definirane kot
@@ -659,7 +658,7 @@ Za naslednji izrek moramo razumeti pojem invariantnosti.
 \end{definicija}
 Projektorji $P_i$ komutirajo z $A$, zato so podprostori $X_i$ invariantni za $A$, in velja naslednje. 
 \begin{izrek}\label{trditevSpektralniRazcep}
-    Naj bo $A \in \C^{n \times n}$ matrika z lastnimi vrednostmi $\lambda_1, \ldots, \lambda_m$ z geometrijskimi večkratnostmi $\nu_1, \ldots, \nu_m$. Če vzamemo $P_i$ in $X_i$ kot v \eqref{definicijaProjekcije} in \eqref{zalogeProjekcij}, potem je
+    Naj bo $A \in \C^{n \times n}$ matrika z lastnimi vrednostmi $\lambda_1, \ldots, \lambda_m$ z večkratnostmi $\nu_1, \ldots, \nu_m$ (kot ničlami minimalnega polinoma matrike $A$). Če vzamemo $P_i$ in $X_i$ kot v \eqref{definicijaProjekcije} in \eqref{zalogeProjekcij}, potem je
     \begin{equation}\label{eqSpektralniRazcep}
         \C^n = X_1 \oplus \cdots \oplus X_m
     \end{equation}
@@ -708,7 +707,7 @@ kjer ima $A_i$ eno samo lastno vrednost, in sicer $\lambda_i$. Iz tega dejstva b
     \begin{equation*}
         X_i = \ker (A - \lambda_i I)^{\nu_i},
     \end{equation*}
-    kjer je $\nu_i$ geometrijska večkratnost lastne vrednosti $\lambda_i$.
+    kjer je $\nu_i$ večkratnost lastne vrednosti $\lambda_i$ (kot ničle minimalnega polinoma).
 \end{trditev}
 \begin{dokaz}
     Trditev \ref{trditevSpektralniRazcep} nam pove, da je $A - \lambda_i I$ nilpotentna reda $\nu_i$ na $X_i$, zato je
@@ -732,7 +731,7 @@ kjer ima $A_i$ eno samo lastno vrednost, in sicer $\lambda_i$. Iz tega dejstva b
 
 S pomočjo spektralnega razcepa v izreku \ref{trditevSpektralniRazcep} lahko izračunamo $f(A)$ brez iskanja interpolacijskih polinomov.
 \begin{izrek} \label{trditevFormula}
-    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \lambda_2, \ldots, \lambda_m$, ki imajo po vrsti večkratnosti $\nu_1, \nu_2, \ldots, \nu_m$. Definirajmo projektorje $P_i$ kot v \eqref{definicijaProjekcije}. Tedaj za vsako funkcijo $f \in C_A^\infty$ velja
+    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \lambda_2, \ldots, \lambda_m$, ki imajo po vrsti večkratnosti $\nu_1, \nu_2, \ldots, \nu_m$ (kot ničle minimalnega polinoma). Definirajmo projektorje $P_i$ kot v \eqref{definicijaProjekcije}. Tedaj za vsako funkcijo $f \in C_A^\infty$ velja
     \begin{equation*}
         f(A) = \sum_{i=1}^m \sum_{\nu = 0}^{\nu_i - 1} \frac{f^{(\nu)}(\lambda_i)}{\nu !}(A - \lambda_i)^\nu P_i.
     \end{equation*}
@@ -810,7 +809,7 @@ Dokaz zgornje leme bo sledil v nadaljevanju (na strani \pageref{dokazLemaNorme})
     \begin{equation*}
         N^{1/k} r(A) \leq \norm{A^k}^{1/k} \leq M^{1/k} \mu
     \end{equation*}
-    za vsak $\mu > r(A)$ in in za določeni konstanti $N, M$. Če je $\norm{\cdot}$ operatorska norma, za dopustno izbiro $N = 1$ dobimo
+    za vsak $\mu > r(A)$ in za določeni konstanti $N, M$. Ko gre $k\rightarrow \infty$, je $\norm{A^k}^{1/k}$ navzdol omejena z $r(A)$, navzgor pa z $\mu$ za vsak $\mu > r(A)$. Torej limita $\lim_{k \rightarrow \infty} \norm{A^k}^{1/k}$ obstaja in je enaka $r(A)$. \\ Če je $\norm{\cdot}$ operatorska norma, za dopustno izbiro $N = 1$ dobimo
     \[r(A) = \inf_{k > 0} \norm{A^k}^{1/k}. \qedhere\]
 \end{dokaz}
 
@@ -819,7 +818,7 @@ Dokaz zgornje leme bo sledil v nadaljevanju (na strani \pageref{dokazLemaNorme})
 V tem poglavju bomo opazovali asimptotsko obnašanje matričnih zaporedij oblike $(A^k)_{k\in\N}$. Izkazalo se bo, da nekatere lastnosti lahko karakteriziramo s spektralnim radijem matrike $A$. Da pridemo do tega rezultata, moramo najprej povedati nekaj o koordinatnih zaporedjih.
 \subsection{Koordinatna zaporedja}
 \begin{lema}\label{lemaNeodvisnost}
-    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \ldots, \lambda_m$ z geometrijskimi večkratnostmi $\nu_1, \ldots, \nu_m$.
+    Naj bo $A \in \C^{n \times n}$ z lastnimi vrednostmi $\lambda_1, \ldots, \lambda_m$ z  večkratnostmi $\nu_1, \ldots, \nu_m$ (kot ničlami minimalnega polinoma).
     \begin{enumerate}
         \item Za $i = 1, \ldots, m$ in $0\neq z \in X_i$ je množica
                  \begin{equation*}
@@ -968,7 +967,7 @@ V izreku bomo uporabili tudi naslednjo definicijo.
     Naj bo $A \in \C^{n \times n}$. Za matrično zaporedje $(A^k)_{k\in\N}$ veljajo naslednje trditve.
     \begin{enumerate}
         \item Zaporedje $(A^k)_{k\in\N}$ je stabilno natanko tedaj, ko je $r(A) < 1$.
-        \item Zaporedje $(A^k)_{k\in\N}$ je omejeno natanko tedaj, ko je $r(A) \leq 1$ in imajo vse lastne vrednosti $\lambda_i$, za katere velja $|\lambda_i| = 1$, geometrijsko večkratnost $1$.
+        \item Zaporedje $(A^k)_{k\in\N}$ je omejeno natanko tedaj, ko je $r(A) \leq 1$ in imajo vse lastne vrednosti $\lambda_i$, za katere velja $|\lambda_i| = 1$, večkratnost $1$ (kot ničle minimalnega polinoma).
         \item Zaporedje $(A^k)_{k\in\N}$ je periodično s periodo $p$ natanko tedaj, ko je omejeno in je $\sigma(A) \subseteq \Gamma_p$.
         \item $\lambda_1 = 1 \in \sigma(A)$ in $\lim_{k\rightarrow\infty} A^k = P_1$ ($P_1$ je spektralni projektor $A$ za lastno vrednost $\lambda_1$) natanko tedaj, ko je $\lambda_1$ radialno dominantna lastna vrednost z večkratnostjo $1$.
     \end{enumerate}
@@ -1185,7 +1184,7 @@ Sedaj si poglejmo še Ces\`arovo konvergenco, torej konvergenco zaporedja s čle
         A^k = k A^{(k)} - (k-1) A^{(k-1)}.
     \end{equation*}
 
-    \noindent $(2) \Rightarrow (3)$: Če zaporedje $(A^k)_{k\in\N}$ ni omejeno, limita $\lim_{k\rightarrow \infty} (k^{-1}A^k)$ ne obstaja.
+    \noindent $(2) \Rightarrow (3)$: Če zaporedje $(A^k)_{k\in\N}$ ni omejeno, limita $\lim_{k\rightarrow \infty} (k^{-1}A^k)$ ni enaka $0$.
     
     \noindent $(3) \Rightarrow (4)$: Sledi direktno iz točke (2) v izreku \refeq{izrekAsimptotika}.
     
